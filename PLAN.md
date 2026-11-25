@@ -364,10 +364,12 @@ Every item is a check that passes or fails:
 
 Answered on 2026-11-25. Ask Bruno nothing more about these unless a fact changes.
 
-1. **Domain:** `getriffu.com` (primary) and `getriffu.app` (redirects), bought by Bruno on
-   2026-11-25; the session never makes a purchase.
-2. **Support email:** `support@getriffu.com`, on the registrar's email plan. **Still open:** the
-   mailbox must be created and receive a test message before phase 3 publishes it.
+1. **Domain:** `getriffu.com` (primary) and `getriffu.app` (redirects), bought by Bruno at
+   **GoDaddy** and registered on 2026-11-25 (registry records checked); DNS is on GoDaddy's
+   nameservers (`ns77`/`ns78.domaincontrol.com`). The session never makes a purchase.
+2. **Support email:** `support@getriffu.com`, on GoDaddy's email plan. **Still open:** on
+   2026-11-25 the domain had no `MX` record yet, so the mailbox must be created and receive a test
+   message before the legal pages go live in phase 5.
 3. **Minimum age:** 13 and over, as written under **Age**. This also answers open question 3 in
    the app's `docs/ACCOUNTS-PLAN.md`.
 4. **Vercel account:** Bruno has one and deploys himself at phase 5; the session never logs in on
