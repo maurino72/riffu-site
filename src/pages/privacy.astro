@@ -20,12 +20,18 @@ import Legal from '../layouts/Legal.astro';
 
   <h2>The short version</h2>
   <ul>
-    <li>You can use Riffu without an account. Then everything stays on your phone.</li>
+    <li>
+      You can use Riffu without an account. Your progress then stays on your phone; the only thing
+      that leaves it is an anonymous check for Pro purchases (see Purchases).
+    </li>
     <li>
       The microphone is used only to find the pitch of the notes you play, on your phone. Sound is
       never recorded and never sent anywhere.
     </li>
-    <li>There are no ads, no analytics and no tracking, in the app or on this website.</li>
+    <li>
+      Riffu has no ad network, no analytics and no tracking, in the app or on this website. The free
+      plan shows a short break after lessons that offers Pro; it shares nothing with anyone.
+    </li>
     <li>
       If you create an account, you can delete it and all of its data from the app at any time.
     </li>
@@ -39,39 +45,37 @@ import Legal from '../layouts/Legal.astro';
 
   <h2>With an account</h2>
   <p>
-    An account lets you keep your progress when you change phones. You sign in with a one-time code
-    sent to your email, or with Sign in with Apple. With an account, we store:
+    An account lets you keep your progress and Pro when you change phones. You sign in with a
+    one-time code sent to your email, or with Sign in with Apple. With an account, we store:
   </p>
   <ul>
     <li>
       <strong>Your email address</strong>, to sign you in. With Sign in with Apple, this can be the
-      private relay address Apple creates for you.
+      private relay address Apple creates for you, and we also receive the identifier Apple uses for
+      you in Riffu.
     </li>
     <li>
-      <strong>Your name</strong>, if you share it through Sign in with Apple or type it in, and your
-      instrument and language.
+      <strong>Your name</strong>, only if you share it through Sign in with Apple.
     </li>
     <li>
-      <strong>Your course progress:</strong> the lessons you finished, your XP, the days you
-      practised and your streak, your daily goal, your beats, and the questions waiting for you to
-      review. It also holds an identifier that the app creates for each phone, so progress from two
-      phones can be merged.
-    </li>
-    <li>
-      <strong>Your practice history:</strong> per day, the minutes you practised and the notes you
-      missed, and the note you tuned and how far it was from the target, in cents.
-    </li>
-    <li>
-      <strong>Whether you have Pro</strong> and when it expires.
+      <strong>Your course progress:</strong> your instrument, the lessons you finished, your XP, the
+      days you practised and your streak, your daily goal, your beats, and the questions waiting for
+      you to review. It also holds an identifier that the app creates for each phone, so progress
+      from two phones can be merged.
     </li>
     <li>
       <strong>A token from Apple</strong>, if you use Sign in with Apple. We keep it only so we can
-      tell Apple to stop Riffu's access when you delete your account.
+      ask Apple to remove Riffu's access when you delete your account.
+    </li>
+    <li>
+      <strong>Sign-in records</strong>: when you signed in and the IP address used, kept by our
+      database provider for security.
     </li>
   </ul>
   <p>
-    We use this data only to run Riffu for you: to sign you in, keep your progress, and know whether
-    you have Pro. We do not sell it, share it for advertising, or use it to build a profile of you.
+    Your practice minutes, the notes you missed and your tuner readings stay on your phone. We use
+    the data above only to run Riffu for you: to sign you in, keep your progress, and give you Pro.
+    We do not sell it, share it for advertising, or use it to build a profile of you.
   </p>
 
   <h2>The microphone</h2>
@@ -90,15 +94,21 @@ import Legal from '../layouts/Legal.astro';
 
   <h2>Purchases</h2>
   <p>
-    Pro is sold through the App Store. Apple handles the payment; we never see your card details. We
-    use RevenueCat to manage subscriptions: it receives your Riffu account identifier and your
-    purchase history, so Pro can follow your account.
+    Pro is sold through the App Store and needs a Riffu account. Apple handles the payment; we never
+    see your card details. We use RevenueCat to manage subscriptions. When Riffu opens, it asks
+    RevenueCat whether you have Pro: without an account it uses an anonymous identifier created on
+    your phone, and with an account it uses your Riffu account identifier. RevenueCat receives that
+    identifier, your purchase history, basic information about your device and app version, and your
+    IP address.
   </p>
 
   <h2>Who processes your data</h2>
   <ul>
     <li>
       <strong>Supabase</strong> stores your account and its data, on servers in the United States.
+    </li>
+    <li>
+      <strong>Resend</strong> sends the one-time sign-in codes, so it receives your email address.
     </li>
     <li>
       <strong>Apple</strong>, for Sign in with Apple and App Store purchases.

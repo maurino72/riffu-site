@@ -77,7 +77,7 @@ The App Store listing will point at `/privacy`, `/terms` and `/support`.
 **Decided 2026-11-25:** Riffu's own Terms of Use at `/terms` replace Apple's standard licence
 agreement. Today the paywall links to Apple's standard EULA (`TERMS_URL` in `src/pro/legal.ts`)
 and to `/privacy` through `EXPO_PUBLIC_PRIVACY_URL`; both live on the app branch
-`feat/pro-purchases`, which was not merged into the app's `main` on 2026-11-25. The app switches
+`feat/pro-purchases`, merged into the app's `main` later on 2026-11-25 (app PR #101). The app switches
 `TERMS_URL` to the live `/terms` in its own session (see **After phase 5**).
 
 **Domains (decided 2026-11-25, changed the same day from `riffu.com`/`riffu.app`):**
@@ -196,20 +196,29 @@ question 1, 2026-11-21) still says a personal account; that line is stale.
 
 - **How learners sign in:** with a one-time code sent to their email, or with Sign in with Apple
   (`signInWithOtp` and `signInWithIdToken` in the app's `src/account/actions.ts`).
-- **What the app stores on the server (Supabase), table by table** (`supabase/migrations/`):
-  - the account email (Supabase's own auth table);
-  - `profiles`: a display name, the instrument and the language;
-  - `progress`: course progress;
-  - `tuning_log`: per day, the note tuned and how many cents sharp or flat;
-  - `practice_days`: per day and per phone, the minutes practised and the notes missed; each
-    phone is identified by an app-generated device id;
-  - `entitlements`: whether the learner has Pro and when it expires.
-- **Sign in with Apple:** Apple's token is kept so Riffu can revoke its access when the account is
-  deleted. Source: `apple_tokens`, `supabase/functions/apple-token`.
-- **Purchases:** handled by Apple and RevenueCat. RevenueCat receives the account id and the
-  purchase history. Riffu never sees card details. **Re-check before phase 3:** on 2026-11-25 the
-  RevenueCat code (`react-native-purchases`) was only on the app branch `feat/pro-purchases`, not
-  on the app's `main`.
+- **What the app actually writes to the server** (checked 2026-11-25 in the app's `src/`; the
+  schema in `supabase/migrations/` has more tables than the app fills):
+  - the account email and, with Apple, Apple's user identifier (Supabase's own auth tables, which
+    also log sign-in times and IP addresses);
+  - `profiles.display_name`, only from Sign in with Apple (`src/account/actions.ts`);
+  - `progress`: one JSON object with the instrument, lessons, XP, practice days, streak, daily
+    goal, beats, questions to review and an app-generated device id (`src/course/progress.ts`).
+  - **Not written today:** `profiles.instrument` and `profiles.language`, `tuning_log`,
+    `practice_days` and `entitlements` (no webhook function exists). Practice minutes, missed notes
+    and tuner readings stay on the phone. When the app starts writing any of them, the Privacy
+    Policy and the Delete page change first.
+- **Sign in with Apple:** Apple's token is kept so Riffu can ask Apple to revoke its access when the
+  account is deleted. Best effort: the deletion goes ahead even if the revoke fails, so the page
+  tells the learner how to remove Riffu from their Apple ID by hand. Source: `apple_tokens`,
+  `supabase/functions/apple-token`, `supabase/functions/delete-account`.
+- **Purchases:** handled by Apple and RevenueCat (merged into the app's `main` by 2026-11-25).
+  `App.tsx` starts RevenueCat for everyone: an anonymous app user id without an account, the Riffu
+  account id once signed in. RevenueCat receives that id, purchase history, device and app
+  information and the IP address. Riffu never sees card details. Pro needs an account.
+- **Email codes:** sent through Resend (the app's `docs/PHASE-B-PLAN.md`, issue #92), parked until
+  the domain exists. Listed as a processor because codes cannot be sent without it.
+- **Ads:** no ad network; the free plan shows a placeholder break after lessons that offers Pro.
+  The pages say exactly that, never a flat "no ads".
 - **Daily reminder:** a local notification scheduled on the phone
   (`scheduleNotificationAsync` in `src/reminders/notify.ts`); no push token is sent anywhere.
 - **Microphone:** sound is analysed on the phone to detect pitch. It is never recorded to a file
@@ -218,7 +227,7 @@ question 1, 2026-11-21) still says a personal account; that line is stale.
   website has no cookies and no analytics. Free learners do see an ad *slot* after a lesson, but
   it is a placeholder with no ad network behind it (`src/lessons/Ad.tsx`). The day an ad network
   is added, this policy must change before that app version ships.
-- **Without an account:** everything stays on the phone.
+- **Without an account:** progress stays on the phone; only the anonymous RevenueCat check leaves it.
 - **Deletion:** in the app (the Profile tab, account section, "Delete account") removes the account and every row,
   and revokes Apple's access. Link to `/delete-account`.
 - **Processors:** Supabase (database and sign-in), Apple (Sign in with Apple, purchases),

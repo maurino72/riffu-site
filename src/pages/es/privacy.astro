@@ -19,12 +19,19 @@ import Legal from '../../layouts/Legal.astro';
 
   <h2>En pocas palabras</h2>
   <ul>
-    <li>Puedes usar Riffu sin cuenta. En ese caso todo queda en tu teléfono.</li>
+    <li>
+      Puedes usar Riffu sin cuenta. Tu progreso queda entonces en tu teléfono; lo único que sale de
+      él es una consulta anónima sobre compras de Pro (mira Compras).
+    </li>
     <li>
       El micrófono se usa solo para encontrar la afinación de las notas que tocas, en tu teléfono.
       El sonido nunca se graba ni se envía a ningún lado.
     </li>
-    <li>No hay anuncios, ni analítica, ni rastreo, ni en la app ni en este sitio web.</li>
+    <li>
+      Riffu no tiene redes de anuncios, ni analítica, ni rastreo, ni en la app ni en este sitio web.
+      El plan gratis muestra una pausa corta después de las lecciones que ofrece Pro; no comparte
+      nada con nadie.
+    </li>
     <li>Si creas una cuenta, puedes borrarla con todos sus datos desde la app cuando quieras.</li>
   </ul>
 
@@ -36,40 +43,38 @@ import Legal from '../../layouts/Legal.astro';
 
   <h2>Con cuenta</h2>
   <p>
-    Una cuenta te permite conservar tu progreso cuando cambias de teléfono. Inicias sesión con un
-    código de un solo uso que te enviamos por email, o con Iniciar sesión con Apple. Con una cuenta,
-    guardamos:
+    Una cuenta te permite conservar tu progreso y Pro cuando cambias de teléfono. Inicias sesión con
+    un código de un solo uso que te enviamos por email, o con Iniciar sesión con Apple. Con una
+    cuenta, guardamos:
   </p>
   <ul>
     <li>
       <strong>Tu dirección de email</strong>, para iniciar sesión. Con Iniciar sesión con Apple,
-      puede ser la dirección privada de reenvío que Apple crea para ti.
+      puede ser la dirección privada de reenvío que Apple crea para ti, y también recibimos el
+      identificador que Apple usa para ti en Riffu.
     </li>
     <li>
-      <strong>Tu nombre</strong>, si lo compartes con Iniciar sesión con Apple o lo escribes, y tu
-      instrumento e idioma.
+      <strong>Tu nombre</strong>, solo si lo compartes con Iniciar sesión con Apple.
     </li>
     <li>
-      <strong>Tu progreso en el curso:</strong> las lecciones que terminaste, tus XP, los días que
-      practicaste y tu racha, tu meta diaria, tus pulsos y las preguntas que esperan tu repaso.
-      También incluye un identificador que la app crea para cada teléfono, para poder unir el
-      progreso de dos teléfonos.
-    </li>
-    <li>
-      <strong>Tu historial de práctica:</strong> por día, los minutos que practicaste y las notas
-      que fallaste, y la nota que afinaste y cuánto se alejó del objetivo, en cents.
-    </li>
-    <li>
-      <strong>Si tienes Pro</strong> y cuándo vence.
+      <strong>Tu progreso en el curso:</strong> tu instrumento, las lecciones que terminaste, tus
+      XP, los días que practicaste y tu racha, tu meta diaria, tus pulsos y las preguntas que
+      esperan tu repaso. También incluye un identificador que la app crea para cada teléfono, para
+      poder unir el progreso de dos teléfonos.
     </li>
     <li>
       <strong>Un token de Apple</strong>, si usas Iniciar sesión con Apple. Lo guardamos solo para
-      pedirle a Apple que corte el acceso de Riffu cuando borras tu cuenta.
+      pedirle a Apple que quite el acceso de Riffu cuando borras tu cuenta.
+    </li>
+    <li>
+      <strong>Registros de inicio de sesión</strong>: cuándo iniciaste sesión y la dirección IP
+      usada, que nuestro proveedor de base de datos guarda por seguridad.
     </li>
   </ul>
   <p>
-    Usamos estos datos solo para que Riffu funcione para ti: iniciar tu sesión, conservar tu
-    progreso y saber si tienes Pro. No los vendemos, no los compartimos para publicidad y no los
+    Tus minutos de práctica, las notas que fallaste y las lecturas del afinador quedan en tu
+    teléfono. Usamos los datos de arriba solo para que Riffu funcione para ti: iniciar tu sesión,
+    conservar tu progreso y darte Pro. No los vendemos, no los compartimos para publicidad y no los
     usamos para armar un perfil tuyo.
   </p>
 
@@ -89,15 +94,22 @@ import Legal from '../../layouts/Legal.astro';
 
   <h2>Compras</h2>
   <p>
-    Pro se vende a través del App Store. Apple gestiona el pago; nunca vemos los datos de tu
-    tarjeta. Usamos RevenueCat para gestionar las suscripciones: recibe el identificador de tu
-    cuenta de Riffu y tu historial de compras, para que Pro siga a tu cuenta.
+    Pro se vende a través del App Store y necesita una cuenta de Riffu. Apple gestiona el pago;
+    nunca vemos los datos de tu tarjeta. Usamos RevenueCat para gestionar las suscripciones. Cuando
+    abres Riffu, la app le pregunta a RevenueCat si tienes Pro: sin cuenta usa un identificador
+    anónimo creado en tu teléfono, y con cuenta usa el identificador de tu cuenta de Riffu.
+    RevenueCat recibe ese identificador, tu historial de compras, datos básicos de tu dispositivo y
+    de la versión de la app, y tu dirección IP.
   </p>
 
   <h2>Quién procesa tus datos</h2>
   <ul>
     <li>
       <strong>Supabase</strong> guarda tu cuenta y sus datos, en servidores de Estados Unidos.
+    </li>
+    <li>
+      <strong>Resend</strong> envía los códigos de inicio de sesión, así que recibe tu dirección de
+      email.
     </li>
     <li>
       <strong>Apple</strong>, para Iniciar sesión con Apple y las compras en el App Store.
@@ -148,10 +160,10 @@ import Legal from '../../layouts/Legal.astro';
 
   <h2>Menores</h2>
   <p>
-    Riffu es para mayores de 13 años. No está dirigida a menores de 13 y no recopilamos sus datos a
-    sabiendas. Donde la ley local fija una edad mayor para consentir el tratamiento de datos (por
-    ejemplo, 14 en España), se aplica esa edad, y quien sea menor necesita el consentimiento de su
-    madre, padre o tutor. Si crees que un menor de 13 tiene una cuenta, escribe a{' '}
+    Riffu es para personas de 13 años o más. No está dirigida a menores de 13 y no recopilamos sus
+    datos a sabiendas. Donde la ley local fija una edad mayor para consentir el tratamiento de datos
+    (por ejemplo, 14 en España), se aplica esa edad, y quien sea menor necesita el consentimiento de
+    su madre, padre o tutor. Si crees que un menor de 13 tiene una cuenta, escribe a{' '}
     <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> y la borraremos.
   </p>
 
