@@ -72,10 +72,16 @@ the close, not only in the footer.
 | `/support` | `/es/support` | Support email and short FAQ |
 | `404` | — | Melo looking down, a link home |
 
-The App Store listing will point at `/privacy`, `/terms` and `/support`. The app's paywall
-links to `/privacy` (`EXPO_PUBLIC_PRIVACY_URL`) and to Apple's standard licence agreement for
-the terms. If the Terms of Use page is meant to replace Apple's licence, say so and the app
-changes its link too.
+The App Store listing will point at `/privacy`, `/terms` and `/support`.
+
+**Decided 2026-11-25:** Riffu's own Terms of Use at `/terms` replace Apple's standard licence
+agreement. Today the paywall links to Apple's standard EULA (`TERMS_URL` in `src/pro/legal.ts`)
+and to `/privacy` through `EXPO_PUBLIC_PRIVACY_URL`; both live on the app branch
+`feat/pro-purchases`, which was not merged into the app's `main` on 2026-11-25. The app switches
+`TERMS_URL` to the live `/terms` in its own session (see **After phase 5**).
+
+**Domains (decided 2026-11-25):** `riffu.com` is the primary domain and every canonical URL uses
+it. `riffu.app` redirects permanently (308) to the same path on `riffu.com`.
 
 ## The landing, top to bottom
 
@@ -106,11 +112,14 @@ app does).
    - Drone, metronome and theory tools.
    - Warm-ups and a daily practice reminder.
    - Streaks and leagues to keep practising.
-5. **Instruments:** saxophone (alto, tenor, soprano, baritone) and clarinet. Confirm the list
-   against the app's onboarding before writing it.
-6. **Pro:** what Pro adds (every lesson, unlimited beats, detailed pitch and tone feedback,
-   practising your mistakes, no ads) and "Try Pro free for 7 days". **No prices on the page:**
-   the App Store sets them per country and they would drift.
+5. **Instruments:** saxophone (alto, tenor, soprano, baritone) and B-flat clarinet. Checked
+   2026-11-25 against `AVAILABLE` in the app's `src/tuner/notes.ts`; re-check before writing.
+6. **Pro:** what Pro adds, in the paywall's own order (`paywall.features` in the app's
+   `src/i18n.ts`): every lesson in the course, unlimited beats, detailed pitch and tone
+   feedback, practise your mistakes, unlimited level tests, no ads. Then "Try Pro free for 7
+   days" (`TRIAL_DAYS = 7` in `src/paywall/Paywall.tsx`, annual plan only). **No prices on the
+   page:** the App Store sets them per country and they would drift. In Spanish the app calls
+   beats **"pulsos"**; copy the app's Spanish strings rather than translating afresh.
 7. **FAQ** (six to eight questions): which instruments, does it need a teacher, does it work
    offline, is the microphone recording me (no), how much does it cost (free, with optional Pro),
    when is Android coming, how do I cancel Pro.
@@ -135,14 +144,24 @@ app does).
 
 ## Assets
 
-Copy from the app repository on this Mac (`/Users/brunomaurino/projects/musicApp`, branch `main`)
-into `public/` or `src/assets/`. Do not modify the originals.
+Copy from the app repository's **GitHub `main`** into `public/` or `src/assets/`. Do not modify
+the originals. The checkout on this Mac (`/Users/brunomaurino/projects/musicApp`) has a working
+tree far behind GitHub (162 commits on 2026-11-25) with no `brand/` or `supabase/` folder, so
+never copy from its working tree and never check anything out there. Read each file from the
+remote ref instead:
+
+```bash
+git -C /Users/brunomaurino/projects/musicApp fetch origin main
+git -C /Users/brunomaurino/projects/musicApp show origin/main:brand/melo/cheer.svg > src/assets/melo/cheer.svg
+```
+
+The same applies to every fact this plan checks in the app: read it from `origin/main`.
 
 | Need | Source in the app repo |
 |---|---|
 | Wordmark and lockup | `brand/logo/wordmark-*.svg`, `brand/logo/lockup-*.svg` |
 | Favicon and touch icon | `brand/icon/favicon-48.png`, `brand/icon/icon-1024.png` |
-| Melo poses | `brand/melo/*.svg` (look-left, look-right, look-down, sing, cheer, note) |
+| Melo poses | `brand/melo/*.svg` (look-left, look-left-down, look-right, look-down, sing, cheer, note) |
 | Phone screenshots | `brand/store/ios/en/*.png` and `brand/store/ios/es/*.png` (1290 × 2796, real captures) |
 | Brand rules | `brand/README.md`, `docs/STORE-LISTING.md` |
 
@@ -156,34 +175,61 @@ on 2026-11-25 unless marked otherwise. Before publishing, re-check each claim ag
 because the app keeps changing. Add a "Last updated" date to each page.
 
 **Who:** Riffu is operated by **BOMAU LLC**, 1209 Mountain Road Place NE, Albuquerque, NM 87110,
-United States.
+United States. The address was confirmed by Bruno on 2026-11-25; it is not recorded in the app
+repository. The seller is BOMAU LLC (the Apple developer account, verified in the app's
+`docs/APPLE-SIGNIN-PLAN.md` on 2026-11-24). The app's older `docs/ACCOUNTS-PLAN.md` (open
+question 1, 2026-11-21) still says a personal account; that line is stale.
+
+**Contact:** `support@riffu.com`, on every legal page and the Support page.
 
 **Privacy Policy**
 
-- **What the app stores on the server (Supabase):**
-  - the account email;
-  - a display name, the instrument and the language;
-  - course progress, the tuning log, and practice days;
-  - whether the learner has Pro.
-
-  Source: `supabase/migrations/`.
+- **How learners sign in:** with a one-time code sent to their email, or with Sign in with Apple
+  (`signInWithOtp` and `signInWithIdToken` in the app's `src/account/actions.ts`).
+- **What the app stores on the server (Supabase), table by table** (`supabase/migrations/`):
+  - the account email (Supabase's own auth table);
+  - `profiles`: a display name, the instrument and the language;
+  - `progress`: course progress;
+  - `tuning_log`: per day, the note tuned and how many cents sharp or flat;
+  - `practice_days`: per day and per phone, the minutes practised and the notes missed; each
+    phone is identified by an app-generated device id;
+  - `entitlements`: whether the learner has Pro and when it expires.
 - **Sign in with Apple:** Apple's token is kept so Riffu can revoke its access when the account is
   deleted. Source: `apple_tokens`, `supabase/functions/apple-token`.
 - **Purchases:** handled by Apple and RevenueCat. RevenueCat receives the account id and the
-  purchase history. Riffu never sees card details.
+  purchase history. Riffu never sees card details. **Re-check before phase 3:** on 2026-11-25 the
+  RevenueCat code (`react-native-purchases`) was only on the app branch `feat/pro-purchases`, not
+  on the app's `main`.
+- **Daily reminder:** a local notification scheduled on the phone
+  (`scheduleNotificationAsync` in `src/reminders/notify.ts`); no push token is sent anywhere.
 - **Microphone:** sound is analysed on the phone to detect pitch. It is never recorded to a file
   and never sent anywhere. No code in the app writes audio to a file or uploads it.
 - **No analytics, no advertising SDK, no tracking.** The app's dependencies include none. The
-  website has no cookies and no analytics.
+  website has no cookies and no analytics. Free learners do see an ad *slot* after a lesson, but
+  it is a placeholder with no ad network behind it (`src/lessons/Ad.tsx`). The day an ad network
+  is added, this policy must change before that app version ships.
 - **Without an account:** everything stays on the phone.
 - **Deletion:** in the app (the Profile tab, account section, "Delete account") removes the account and every row,
   and revokes Apple's access. Link to `/delete-account`.
 - **Processors:** Supabase (database and sign-in), Apple (Sign in with Apple, purchases),
   RevenueCat (subscriptions), Vercel (website hosting).
-  - **Assumption:** the Supabase project's region. Read it from the Supabase dashboard and name
-    the country.
-- **Children:** depends on Bruno's age decision (see Inputs).
-- **Contact:** the support email.
+  - **Likely:** the Supabase project is in **East US (North Virginia), United States** (the
+    app's `docs/PHASE-B-PLAN.md`, project `mabiewrwlaqqsikfokyn`). Confirm it in the Supabase
+    dashboard before publishing.
+- **Children:** see **Age** below.
+- **Contact:** `support@riffu.com`.
+
+**Age** (see Inputs, item 3)
+
+- Riffu is for people **13 and over**. It is not directed to children under 13 and does not
+  knowingly collect their data. If BOMAU learns an account belongs to a child under 13, it deletes
+  it; parents write to `support@riffu.com`.
+- Where local law sets a higher age for consenting to data processing (in the EU it ranges from
+  13 to 16 by country; Spain sets 14), that age applies, and a younger learner needs a parent's or
+  guardian's consent.
+- Learners under 18 accept the Terms with a parent's or guardian's permission.
+- In App Store Connect, Riffu is **not** placed in the Kids category. The age rating is about
+  content and can stay low; it does not mean the app is aimed at children.
 
 **Terms of Use**
 
@@ -195,8 +241,13 @@ United States.
   - cancelled in the Apple ID settings;
   - refunds are handled by Apple.
 - **Acceptable use, intellectual property, disclaimers, limitation of liability.**
+- **Age:** 13 and over; under 18 with a parent's or guardian's permission.
+- **The Apple terms Apple requires:** because these Terms replace Apple's standard licence
+  agreement, they must include the minimum terms Apple sets for a custom licence agreement
+  (Apple is not responsible for the app, is a third-party beneficiary, and so on). Check Apple's
+  current App Store Review Guidelines and the developer agreement for the exact list.
 - **Governing law:** New Mexico, United States.
-- **Contact:** the support email.
+- **Contact:** `support@riffu.com`.
 - Have a lawyer read both before a paid launch campaign. This plan is not legal advice.
 
 **Delete your account**
@@ -247,15 +298,20 @@ so Bruno gets a Vercel preview link for each.
    - Smart App Banner.
    - Lighthouse pass.
 5. **Deploy**
-   - Vercel project and the custom domain.
-   - HTTPS.
+   - Bruno connects this repository to his Vercel account and adds `riffu.com` and `riffu.app`
+     himself; the session writes down exactly which DNS records Vercel asks for.
+   - `riffu.app` set to redirect to `riffu.com`.
+   - HTTPS on both.
    - Every URL in **Done when** checked live.
 
-After phase 5, in the app repository (`maurino72/riffu`):
+**After phase 5**, in the app repository (`maurino72/riffu`):
 
-- set `EXPO_PUBLIC_PRIVACY_URL` on EAS (production, preview and development) to the live
-  `/privacy` URL;
-- put the privacy, terms and support URLs in App Store Connect.
+- set `EXPO_PUBLIC_PRIVACY_URL` on EAS (production, preview and development) to
+  `https://riffu.com/privacy`;
+- change `TERMS_URL` in `src/pro/legal.ts` to `https://riffu.com/terms`;
+- in App Store Connect: the privacy policy URL, the support URL, and the Terms as the custom
+  licence agreement (or a link to `/terms` in the description, as Apple requires for
+  subscriptions).
 
 That is a separate change, in the app's own session.
 
@@ -264,8 +320,9 @@ That is a separate change, in the app's own session.
 Every item is a check that passes or fails:
 
 - [ ] `npm run build` and `astro check` exit 0. CI is green on `main`.
-- [ ] Every page in the table above returns HTTP 200 on the custom domain, in both languages
+- [ ] Every page in the table above returns HTTP 200 on `https://riffu.com`, in both languages
       (`curl -s -o /dev/null -w '%{http_code}'` for each).
+- [ ] `https://riffu.app/privacy` returns 308 with `Location: https://riffu.com/privacy`.
 - [ ] Every App Store link and the QR code resolve to `apps.apple.com/app/id6838997064`.
 - [ ] The `apple-itunes-app` meta tag is present on every page.
 - [ ] Lighthouse (mobile) on `/` and `/es/`: Performance ≥ 95, Accessibility ≥ 95, Best
@@ -280,15 +337,18 @@ Every item is a check that passes or fails:
 
 ## Inputs from Bruno
 
-Ask only these, one at a time, and only when the phase that needs them starts.
+Answered on 2026-11-25. Ask Bruno nothing more about these unless a fact changes.
 
-1. **Domain** (needed in phase 5). For example `riffu.app`. Bruno buys it; the session never
-   makes a purchase. Then the DNS records Vercel asks for.
-2. **Support email** (needed in phase 3). For example `support@<domain>`.
-3. **Minimum age** (needed in phase 3). "13 and over" is the simpler start; under 13 brings COPPA
-   and stricter rules. This is open question 3 in the app's `docs/ACCOUNTS-PLAN.md`.
-4. **Vercel account** (needed in phase 5). Bruno connects this GitHub repository to Vercel
-   himself; the session never logs in on his behalf.
+1. **Domain:** `riffu.com` (primary) and `riffu.app` (redirects). Bruno buys both; the session
+   never makes a purchase.
+2. **Support email:** `support@riffu.com`. **Still open:** the mailbox must exist and receive
+   mail before phase 3 publishes it.
+3. **Minimum age:** 13 and over, as written under **Age**. This also answers open question 3 in
+   the app's `docs/ACCOUNTS-PLAN.md`.
+4. **Vercel account:** Bruno has one and deploys himself at phase 5; the session never logs in on
+   his behalf.
+5. **Terms:** Riffu's own Terms of Use replace Apple's standard licence agreement.
+6. **Company address:** confirmed as written under **Who**.
 
 ## Risks
 
@@ -298,3 +358,6 @@ Ask only these, one at a time, and only when the phase that needs them starts.
   change to what the app collects needs this site's Privacy Policy updated in the same week.
 - **Trademark:** "Melo" and "Riffu" still need a trademark search before launch (from the app's
   brand notes).
+- **Ads:** the free plan already reserves an ad slot. Adding an ad network changes the Privacy
+  Policy, the "no tracking" line and possibly the age section; it must not ship before this
+  site is updated.
