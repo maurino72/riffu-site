@@ -5,7 +5,7 @@
  */
 import type { Locale } from './ui';
 
-export type ScreenId = '02-take' | '03-home' | '04-songs' | '05-practice' | '06-profile';
+export type ScreenId = '02-take' | '03-home' | '05-practice' | '06-profile';
 
 interface LandingCopy {
   title: string;
@@ -51,7 +51,7 @@ const en: LandingCopy = {
       },
       {
         title: 'Hear back',
-        text: 'Riffu marks every note you played: in tune, too high or too low.',
+        text: 'Riffu checks every note you play and tells you how many you got right.',
       },
     ],
   },
@@ -63,7 +63,10 @@ const en: LandingCopy = {
         title: 'A course drawn as a melody',
         text: 'Level by level, unit by unit, from your first note.',
       },
-      { title: 'A song in every unit', text: 'Hear it first, then play it with the click.' },
+      {
+        title: 'Songs to unlock',
+        text: 'New songs along the course. Hear one first, then play it with the click.',
+      },
       { title: 'Drone, metronome and theory', text: 'Practice tools built for your instrument.' },
       {
         title: 'Warm-ups and a daily reminder',
@@ -87,11 +90,6 @@ const en: LandingCopy = {
         alt: 'The course path: units drawn as notes on a staff, with the next lesson ready to start.',
       },
       {
-        id: '04-songs',
-        caption: 'Unlock a song every unit',
-        alt: 'The song list, with songs to hear first and play at slow or full tempo.',
-      },
-      {
         id: '05-practice',
         caption: 'Drone, metronome and theory',
         alt: 'The practice tools: a drone on C, practising your mistakes, and the metronome.',
@@ -99,7 +97,7 @@ const en: LandingCopy = {
       {
         id: '06-profile',
         caption: 'Watch your practice add up',
-        alt: 'The profile in dark mode: day streak, total XP, minutes today and a chart of practice this week.',
+        alt: 'The profile in dark mode: day streak, total XP, minutes today and a chart of the last 14 days of practice.',
       },
     ],
   },
@@ -189,7 +187,7 @@ const es: LandingCopy = {
       },
       {
         title: 'Escucha la corrección',
-        text: 'Riffu marca cada nota que tocaste: afinada, muy alta o muy baja.',
+        text: 'Riffu revisa cada nota que tocas y te dice cuántas te salieron bien.',
       },
     ],
   },
@@ -204,9 +202,12 @@ const es: LandingCopy = {
         title: 'Un curso que es una melodía',
         text: 'Nivel por nivel, unidad por unidad, desde tu primera nota.',
       },
-      { title: 'Una canción en cada unidad', text: 'Escúchala primero y tócala con el clic.' },
       {
-        title: 'Bordón, metrónomo y teoría',
+        title: 'Canciones para desbloquear',
+        text: 'Canciones nuevas a lo largo del curso. Escúchala primero y tócala con el clic.',
+      },
+      {
+        title: 'Nota pedal, metrónomo y teoría',
         text: 'Herramientas de práctica hechas para tu instrumento.',
       },
       {
@@ -231,19 +232,14 @@ const es: LandingCopy = {
         alt: 'El camino del curso: las unidades dibujadas como notas en un pentagrama, con la próxima lección lista para empezar.',
       },
       {
-        id: '04-songs',
-        caption: 'Una canción nueva en cada unidad',
-        alt: 'La lista de canciones, para escucharlas primero y tocarlas lento o a tempo.',
-      },
-      {
         id: '05-practice',
-        caption: 'Bordón, metrónomo y teoría',
-        alt: 'Las herramientas de práctica: un bordón en Do, practicar tus errores y el metrónomo.',
+        caption: 'Nota pedal, metrónomo y teoría',
+        alt: 'Las herramientas de práctica: una nota pedal en Do, practicar tus errores y el metrónomo.',
       },
       {
         id: '06-profile',
         caption: 'Mira cómo suma tu práctica',
-        alt: 'El perfil en modo oscuro: racha, XP total, minutos de hoy y un gráfico de la práctica de la semana.',
+        alt: 'El perfil en modo oscuro: racha, XP total, minutos de hoy y un gráfico de la práctica de los últimos 14 días.',
       },
     ],
   },

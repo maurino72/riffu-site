@@ -106,18 +106,22 @@ app does).
 3. **How it works:** three steps, each with an icon or a small screenshot.
    1. Tune: the tuner hears your instrument.
    2. Play: a lesson shows the notes on the staff.
-   3. Hear back: Riffu marks each note you played as right, sharp or flat.
+   3. Hear back: Riffu checks each note and says how many were right. (Corrected 2026-11-25:
+      lessons score a note as right or wrong, `src/listen/take.ts`; "too high / too low" is the
+      tuner's wording, and cents in lessons are Pro-only.)
 4. **Features** grid, six cards, one line each, in this order:
    - Live feedback on pitch from the microphone.
    - A course drawn as a melody on the staff, level by level.
-   - A song to unlock in every unit.
+   - Songs to unlock along the course. (Not "in every unit": several units have no song,
+     `src/lessons/songs.ts`.)
    - Drone, metronome and theory tools.
    - Warm-ups and a daily practice reminder.
    - Streaks, XP and badges to keep practising. (Changed 2026-11-25: the app has no leagues
      yet. Its Awards tab shows the week's XP and badges, and `src/leagues/Leagues.tsx` says
      leagues arrive once accounts exist. Say "leagues" only when they ship.)
-   - Below the cards, a sideways-scrolling row of five app screens (lesson, course, songs,
-     practice tools, profile), cropped from the store screenshots, each with its store caption.
+   - Below the cards, a sideways-scrolling row of four app screens (lesson, course, practice
+     tools, profile), cropped from the store screenshots, each with its store caption. The songs
+     screen is left out while its English capture reads "It costs no hearts".
 5. **Instruments:** saxophone (alto, tenor, soprano, baritone) and B-flat clarinet. Checked
    2026-11-25 against `AVAILABLE` in the app's `src/tuner/notes.ts`; re-check before writing.
 6. **Pro:** what Pro adds, in the paywall's own order (`paywall.features` in the app's
