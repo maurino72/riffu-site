@@ -1,0 +1,99 @@
+---
+/**
+ * Plain links to the same page in each language. It works without JavaScript and never
+ * guesses the language from the browser.
+ */
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { LANGUAGE_NAMES, LOCALES, t, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** The page's path without the locale prefix, for example `/` or `/privacy`. */
+  path: string;
+  /** On narrow screens, show `EN` / `ES` instead of the full names (the header uses this). */
+  compact?: boolean;
+}
+
+const { locale, path, compact = false } = Astro.props;
+---
+
+<nav class:list={['switcher', { compact }]} aria-label={t(locale).language}>
+  <ul>
+    {LOCALES.map((other) => (
+      <li>
+        {other === locale ? (
+          <span class="item current" aria-current="true" lang={other}>
+            <span class="full">{LANGUAGE_NAMES[other]}</span>
+            <span class="code" aria-hidden="true">
+              {other.toUpperCase()}
+            </span>
+          </span>
+        ) : (
+          <a class="item" href={getRelativeLocaleUrl(other, path)} hreflang={other} lang={other}>
+            <span class="full">{LANGUAGE_NAMES[other]}</span>
+            <span class="code" aria-hidden="true">
+              {other.toUpperCase()}
+            </span>
+          </a>
+        )}
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  ul {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.9375rem;
+  }
+
+  .item {
+    display: inline-block;
+    padding: 0.375rem 0.625rem;
+    border-radius: var(--radius-pill);
+  }
+
+  a.item {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  a.item:hover {
+    color: var(--violet-dark);
+    background: var(--violet-tint);
+  }
+
+  .current {
+    color: var(--violet-dark);
+    background: var(--violet-light);
+    font-weight: 800;
+  }
+
+  .code {
+    display: none;
+  }
+
+  /* Narrow phones: the full names stay for screen readers, the codes are what is seen. */
+  @media (max-width: 400px) {
+    .compact .full {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+
+    .compact .code {
+      display: inline;
+    }
+
+    .compact .item {
+      padding-inline: 0.5rem;
+    }
+  }
+</style>

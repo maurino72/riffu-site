@@ -1,0 +1,44 @@
+---
+import '@fontsource/nunito/latin-600.css';
+import '@fontsource/nunito/latin-800.css';
+import '@fontsource/nunito/latin-900.css';
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { t, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** The page's path without the locale prefix, for example `/` or `/privacy`. */
+  path: string;
+  title: string;
+  description: string;
+}
+
+const { locale, path, title, description } = Astro.props;
+const s = t(locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#7B3FE4" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      {s.skipToContent}
+    </a>
+    <Header locale={locale} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} path={path} />
+  </body>
+</html>

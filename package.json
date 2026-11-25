@@ -1,0 +1,29 @@
+{
+  "name": "riffu-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "links": "linkinator 404.html --server-root ./dist --recurse --skip \"^https?://(?!localhost|127\\\\.0\\\\.0\\\\.1)\"",
+    "ci": "npm run check && npm run build && npm run format:check && npm run links"
+  },
+  "dependencies": {
+    "@fontsource/nunito": "5.3.0",
+    "astro": "7.4.13"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.12",
+    "linkinator": "8.1.0",
+    "prettier": "3.10.1",
+    "prettier-plugin-astro": "1.1.2",
+    "typescript": "6.0.3"
+  }
+}
