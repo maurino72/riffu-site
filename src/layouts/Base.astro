@@ -28,7 +28,8 @@ const s = t(locale);
 const url = (l: Locale) =>
   getAbsoluteLocaleUrl(l, path === '/' ? '' : path).replace(/(.)\/$/, '$1');
 const canonical = url(locale);
-const ogLocale = { en: 'en_US', es: 'es_419' } as const;
+// Open Graph locales use language_TERRITORY; es_LA is the Latin American Spanish code scrapers know.
+const ogLocale = { en: 'en_US', es: 'es_LA' } as const;
 const ogImage = new URL(OG_IMAGE[locale], SITE_URL).href;
 
 const schema = {
@@ -74,7 +75,7 @@ const schema = {
     <meta property="og:site_name" content="Riffu" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!noindex && <meta property="og:url" content={canonical} />}
     <meta property="og:locale" content={ogLocale[locale]} />
     {LOCALES.filter((l) => l !== locale).map((l) => (
       <meta property="og:locale:alternate" content={ogLocale[l]} />
