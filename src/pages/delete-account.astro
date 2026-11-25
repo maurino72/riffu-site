@@ -1,0 +1,72 @@
+---
+import { SUPPORT_EMAIL } from '../config';
+import Legal from '../layouts/Legal.astro';
+
+// Steps and labels match the app: Profile tab → Account → "Delete account" → "Delete for good"
+// (src/account/AccountSection.tsx and src/i18n.ts on the app's GitHub main, 2026-11-25).
+---
+
+<Legal
+  locale="en"
+  path="/delete-account"
+  title="Delete your account"
+  description="How to delete your Riffu account and all of its data, in the app or by email."
+>
+  <h2>In the app</h2>
+  <ol>
+    <li>
+      Open Riffu and go to the <strong>Profile</strong> tab.
+    </li>
+    <li>
+      In the <strong>Account</strong> section, tap <strong>Delete account</strong>.
+    </li>
+    <li>
+      Confirm with <strong>Delete for good</strong>.
+    </li>
+  </ol>
+  <p>
+    It happens straight away and cannot be undone. Riffu then forgets you on that phone, as if you
+    had signed out.
+  </p>
+
+  <h2>If you have Pro, cancel it first</h2>
+  <p>
+    Deleting your account does not stop Apple from charging you. Cancel the subscription first: open
+    your iPhone's Settings, tap your name, then <strong>Subscriptions</strong>. The app reminds you
+    of this before it deletes the account.
+  </p>
+
+  <h2>What is deleted</h2>
+  <ul>
+    <li>Your account and its email address.</li>
+    <li>Your name, if you shared it through Sign in with Apple.</li>
+    <li>Your course progress: instrument, lessons, XP, streak and daily goal.</li>
+    <li>
+      If you used Sign in with Apple, Riffu asks Apple to remove its access to your Apple ID. If
+      Riffu still appears under Sign in with Apple in your Apple ID settings, you can remove it
+      there.
+    </li>
+  </ul>
+  <p>
+    Copies may remain in our providers' backups for a limited time until they are overwritten. Apple
+    and RevenueCat keep their own records of purchases, under their own policies.
+  </p>
+
+  <h2>If you cannot open the app</h2>
+  <p>
+    Write to <a href={`mailto:${SUPPORT_EMAIL}?subject=Delete%20my%20account`}>{SUPPORT_EMAIL}</a>{' '}
+    from your account's email address, with the subject "Delete my account". We delete it within 30
+    days and reply when it is done. If you used Sign in with Apple with a private relay address,
+    write from the address that forwards to it, or tell us which address you used.
+  </p>
+
+  <h2>Without an account</h2>
+  <p>
+    If you never created an account, your progress lives only on your phone. Deleting the app
+    deletes it.
+  </p>
+
+  <p>
+    More about your data in the <a href="/privacy">Privacy Policy</a>.
+  </p>
+</Legal>

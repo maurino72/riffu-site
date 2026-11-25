@@ -1,0 +1,59 @@
+---
+import { SUPPORT_EMAIL } from '../../config';
+import Legal from '../../layouts/Legal.astro';
+---
+
+<Legal
+  locale="es"
+  path="/support"
+  title="Soporte"
+  description="Ayuda con Riffu: cómo escribirnos y respuestas a preguntas frecuentes."
+  dated={false}
+>
+  <p>
+    Escribe a <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>. Cuéntanos el modelo de tu
+    teléfono, tu versión de iOS y qué pasó, y te responderemos.
+  </p>
+
+  <h2>Preguntas frecuentes</h2>
+
+  <h3>No me llega el código para iniciar sesión</h3>
+  <p>
+    Revisa la carpeta de spam o promociones, y que el email esté bien escrito. Después pide un
+    código nuevo en la app.
+  </p>
+
+  <h3>Riffu no escucha mi instrumento</h3>
+  <p>
+    Riffu necesita el micrófono. Abre Ajustes en tu iPhone, busca Riffu y activa el micrófono. El
+    sonido solo se analiza en tu teléfono; nunca se graba ni se envía a ningún lado.
+  </p>
+
+  <h3>Compré Pro y no lo veo</h3>
+  <p>
+    Pro está unido a tu cuenta de Riffu. Primero inicia sesión en la misma cuenta de Riffu con la
+    que compraste. Después, en la pantalla de Pro, toca <strong>Restaurar</strong>, con el App Store
+    iniciado con el Apple ID con el que pagaste.
+  </p>
+
+  <h3>¿Cómo cancelo Pro?</h3>
+  <p>
+    Abre Ajustes en tu iPhone, toca tu nombre y luego <strong>Suscripciones</strong>. Borrar la app
+    o tu cuenta no la cancela. Los reembolsos los gestiona Apple.
+  </p>
+
+  <h3>¿Cómo borro mi cuenta?</h3>
+  <p>
+    Mira <a href="/es/delete-account">Borrar tu cuenta</a>.
+  </p>
+
+  <h2>Legal</h2>
+  <ul>
+    <li>
+      <a href="/es/terms">Términos de uso</a>
+    </li>
+    <li>
+      <a href="/es/privacy">Política de privacidad</a>
+    </li>
+  </ul>
+</Legal>

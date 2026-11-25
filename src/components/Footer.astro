@@ -1,4 +1,5 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import lockup from '../assets/brand/lockup-violet.svg';
 import { COMPANY } from '../config';
 import { t, type Locale } from '../i18n/ui';
@@ -12,13 +13,26 @@ interface Props {
 const { locale, path } = Astro.props;
 const s = t(locale);
 const year = new Date().getFullYear();
-// The legal links (Terms of Use, Privacy Policy, Delete your account, Support) arrive with
-// their pages in phase 3 of PLAN.md, so the link check never meets a page that does not exist.
+const links = [
+  { path: '/terms', label: s.terms },
+  { path: '/privacy', label: s.privacy },
+  { path: '/delete-account', label: s.deleteAccount },
+  { path: '/support', label: s.support },
+];
 ---
 
 <footer class="footer">
   <div class="container inner">
     <img class="lockup" src={lockup.src} width={lockup.width} height={lockup.height} alt="Riffu" />
+    <nav aria-label={s.legalNav}>
+      <ul class="links">
+        {links.map((link) => (
+          <li>
+            <a href={getRelativeLocaleUrl(locale, link.path)}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
     <LanguageSwitcher locale={locale} path={path} />
     <p class="legal">
       {`© ${year} ${COMPANY.name}. ${s.rights}`}
@@ -41,6 +55,22 @@ const year = new Date().getFullYear();
     flex-direction: column;
     align-items: flex-start;
     gap: 1.25rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .links a {
+    display: inline-block;
+    padding-block: 0.25rem;
+    color: var(--ink);
+    font-weight: 800;
   }
 
   .lockup {

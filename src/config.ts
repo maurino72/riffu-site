@@ -18,3 +18,6 @@ export const COMPANY = {
   name: 'BOMAU LLC',
   address: '1209 Mountain Road Place NE, Albuquerque, NM 87110, United States',
 } as const;
+
+/** The date shown as "Last updated" on the legal pages. Change it with every change to them. */
+export const LEGAL_UPDATED = '2026-11-25';

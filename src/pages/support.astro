@@ -1,0 +1,59 @@
+---
+import { SUPPORT_EMAIL } from '../config';
+import Legal from '../layouts/Legal.astro';
+---
+
+<Legal
+  locale="en"
+  path="/support"
+  title="Support"
+  description="Get help with Riffu: contact us, and answers to common questions."
+  dated={false}
+>
+  <p>
+    Write to <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>. Tell us your phone model, your
+    iOS version and what happened, and we will get back to you.
+  </p>
+
+  <h2>Common questions</h2>
+
+  <h3>The sign-in code does not arrive</h3>
+  <p>
+    Check your spam or promotions folder, and that the email address is spelled right. Then ask the
+    app for a new code.
+  </p>
+
+  <h3>Riffu does not hear my instrument</h3>
+  <p>
+    Riffu needs the microphone. Open your iPhone's Settings, find Riffu, and turn the microphone on.
+    The sound is only analysed on your phone; it is never recorded or sent anywhere.
+  </p>
+
+  <h3>I bought Pro but do not see it</h3>
+  <p>
+    Pro is linked to your Riffu account. First sign in to the same Riffu account you bought it with.
+    Then, on the Pro screen, tap <strong>Restore</strong>, with the App Store signed in to the Apple
+    ID you paid with.
+  </p>
+
+  <h3>How do I cancel Pro?</h3>
+  <p>
+    Open your iPhone's Settings, tap your name, then <strong>Subscriptions</strong>. Deleting the
+    app or your account does not cancel it. Refunds are handled by Apple.
+  </p>
+
+  <h3>How do I delete my account?</h3>
+  <p>
+    See <a href="/delete-account">Delete your account</a>.
+  </p>
+
+  <h2>Legal</h2>
+  <ul>
+    <li>
+      <a href="/terms">Terms of Use</a>
+    </li>
+    <li>
+      <a href="/privacy">Privacy Policy</a>
+    </li>
+  </ul>
+</Legal>

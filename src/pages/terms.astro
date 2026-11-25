@@ -1,0 +1,168 @@
+---
+import { COMPANY, SUPPORT_EMAIL } from '../config';
+import Legal from '../layouts/Legal.astro';
+
+// These Terms replace Apple's standard licence agreement (decided 2026-11-25, PLAN.md), so they
+// carry the minimum terms Apple requires of a custom licence agreement (section "Apple").
+---
+
+<Legal
+  locale="en"
+  path="/terms"
+  title="Terms of Use"
+  description="The terms for using Riffu and its optional Pro subscription."
+>
+  <p>
+    These Terms are an agreement between you and {COMPANY.name} ("we") for the use of the Riffu app
+    and this website. By downloading or using Riffu, you accept them. If you do not accept them, do
+    not use Riffu.
+  </p>
+
+  <h2>1. Who can use Riffu</h2>
+  <p>
+    You must be 13 or older. If you are under 18, or under the age of majority where you live, you
+    may use Riffu only with the permission of a parent or guardian, who accepts these Terms for you.
+  </p>
+
+  <h2>2. The service</h2>
+  <p>
+    Riffu teaches the saxophone and the clarinet with lessons, a tuner and practice tools. It is
+    free to use. Pro is an optional subscription that adds more, as described in the app. We may
+    add, change or remove features over time.
+  </p>
+
+  <h2>3. Your account</h2>
+  <p>
+    You can use Riffu without an account. If you create one, keep access to your email address or
+    Apple ID safe, because that is how you sign in. You can delete your account at any time; see
+    <a href="/delete-account">Delete your account</a>.
+  </p>
+
+  <h2>4. Pro subscriptions</h2>
+  <ul>
+    <li>Pro is sold through the App Store and billed by Apple to your Apple ID.</li>
+    <li>
+      A subscription renews automatically at the end of each period unless you cancel it at least 24
+      hours before the period ends. The renewal is charged within the 24 hours before the period
+      ends.
+    </li>
+    <li>
+      Where a free trial is offered, it turns into a paid subscription when it ends unless you
+      cancel at least 24 hours before.
+    </li>
+    <li>
+      To cancel, open your iPhone's Settings, tap your name, then Subscriptions. Deleting the app or
+      your Riffu account does not cancel a subscription.
+    </li>
+    <li>
+      Prices are shown in the App Store before you buy. Refunds are handled by Apple under its own
+      policies.
+    </li>
+  </ul>
+
+  <h2>5. Acceptable use</h2>
+  <p>
+    Use Riffu for your own learning. Do not copy, resell or redistribute it or its content, try to
+    break or get around its security or its Pro features, reverse engineer it except where the law
+    allows, or use it in a way that breaks the law or harms others.
+  </p>
+
+  <h2>6. Our content</h2>
+  <p>
+    Riffu, its lessons, music, drawings, the name Riffu and the character Melo belong to{' '}
+    {COMPANY.name}
+    or its licensors. We give you a personal, non-exclusive, non-transferable licence to use the app
+    on Apple devices that you own or control, as permitted by the Usage Rules in the Apple Media
+    Services Terms and Conditions, except that it may also be accessed and used by other accounts
+    associated with you through Family Sharing or volume purchasing.
+  </p>
+
+  <h2>7. Disclaimers</h2>
+  <p>
+    Riffu helps you practise; it does not guarantee any result, and it is not a substitute for a
+    teacher where you need one. Play at a volume and for times that are safe for you. To the extent
+    the law allows, Riffu is provided "as is", without warranties of any kind.
+  </p>
+
+  <h2>8. Limitation of liability</h2>
+  <p>
+    To the extent the law allows, {COMPANY.name} is not liable for indirect, incidental or
+    consequential damages, and its total liability to you is limited to the greater of the amount
+    you paid for Riffu in the twelve months before the claim and 50 US dollars. Some places do not
+    allow these limits, so they may not apply to you.
+  </p>
+
+  <h2>9. Ending</h2>
+  <p>
+    You can stop using Riffu and delete your account at any time. We may suspend or end access for
+    anyone who breaks these Terms.
+  </p>
+
+  <h2>10. Apple</h2>
+  <p>If you got Riffu from the App Store, these terms also apply:</p>
+  <ul>
+    <li>
+      These Terms are between you and {COMPANY.name} only, not Apple. {COMPANY.name}, not Apple, is
+      responsible for Riffu and its content.
+    </li>
+    <li>
+      Apple has no obligation to provide any maintenance or support for Riffu. Write to us for
+      support.
+    </li>
+    <li>
+      If Riffu fails to conform to any warranty that applies, you may notify Apple, and Apple will
+      refund the purchase price, if any. To the extent the law allows, Apple has no other warranty
+      obligation for Riffu, and any other claims, losses or costs from a failure to conform to a
+      warranty are our responsibility.
+    </li>
+    <li>
+      {COMPANY.name}, not Apple, is responsible for any claims about Riffu, including product
+      liability claims, claims that Riffu fails to meet a legal or regulatory requirement, and
+      claims under consumer protection, privacy or similar laws.
+    </li>
+    <li>
+      If a third party claims that Riffu or your use of it infringes their intellectual property,
+      {COMPANY.name}, not Apple, is responsible for the investigation, defence, settlement and
+      discharge of that claim.
+    </li>
+    <li>
+      You confirm that you are not in a country subject to a United States Government embargo or
+      designated as a "terrorist supporting" country, and that you are not on any United States
+      Government list of prohibited or restricted parties.
+    </li>
+    <li>You must follow any third-party terms that apply when you use Riffu.</li>
+    <li>
+      Apple and its subsidiaries are third-party beneficiaries of these Terms. Once you accept them,
+      Apple has the right to enforce them against you as a third-party beneficiary.
+    </li>
+  </ul>
+
+  <h2>11. Governing law</h2>
+  <p>
+    These Terms are governed by the laws of the State of New Mexico, United States, without regard
+    to its conflict of laws rules. Disputes go to the state or federal courts located in Bernalillo
+    County, New Mexico, unless the law of the country where you live lets you bring them where you
+    live. This does not take away any protection that the consumer law of the country where you live
+    gives you.
+  </p>
+
+  <h2>12. Changes</h2>
+  <p>
+    We may update these Terms. If a change matters, we will say so in the app or on this page before
+    it takes effect, and change the date at the top. If you keep using Riffu after that, you accept
+    the new Terms.
+  </p>
+
+  <h2>13. Contact</h2>
+  <p>Questions, complaints and claims go to:</p>
+  <address>
+    {COMPANY.name}
+    <br />
+    {COMPANY.address}
+    <br />
+    <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+  </address>
+  <p>
+    Our <a href="/privacy">Privacy Policy</a> explains how we handle your data.
+  </p>
+</Legal>
