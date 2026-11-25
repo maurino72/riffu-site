@@ -1,0 +1,56 @@
+---
+import lockup from '../assets/brand/lockup-violet.svg';
+import { COMPANY } from '../config';
+import { t, type Locale } from '../i18n/ui';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+interface Props {
+  locale: Locale;
+  path: string;
+}
+
+const { locale, path } = Astro.props;
+const s = t(locale);
+const year = new Date().getFullYear();
+// The legal links (Terms of Use, Privacy Policy, Delete your account, Support) arrive with
+// their pages in phase 3 of PLAN.md, so the link check never meets a page that does not exist.
+---
+
+<footer class="footer">
+  <div class="container inner">
+    <img class="lockup" src={lockup.src} width={lockup.width} height={lockup.height} alt="Riffu" />
+    <LanguageSwitcher locale={locale} path={path} />
+    <p class="legal">
+      {`© ${year} ${COMPANY.name}. ${s.rights}`}
+      <br />
+      {s.appleTrademark}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 4rem;
+    padding-block: 2.5rem;
+    background: var(--surface-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .lockup {
+    width: 160px;
+    height: auto;
+  }
+
+  .legal {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+</style>

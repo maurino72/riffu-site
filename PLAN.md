@@ -80,8 +80,10 @@ and to `/privacy` through `EXPO_PUBLIC_PRIVACY_URL`; both live on the app branch
 `feat/pro-purchases`, which was not merged into the app's `main` on 2026-11-25. The app switches
 `TERMS_URL` to the live `/terms` in its own session (see **After phase 5**).
 
-**Domains (decided 2026-11-25):** `riffu.com` is the primary domain and every canonical URL uses
-it. `riffu.app` redirects permanently (308) to the same path on `riffu.com`.
+**Domains (decided 2026-11-25, changed the same day from `riffu.com`/`riffu.app`):**
+`getriffu.com` is the primary domain and every canonical URL uses it. `getriffu.app` redirects
+permanently (308) to the same path on `getriffu.com`. Both were bought by Bruno with the
+registrar's professional email plan ("Pro Light", one year).
 
 ## The landing, top to bottom
 
@@ -180,7 +182,7 @@ repository. The seller is BOMAU LLC (the Apple developer account, verified in th
 `docs/APPLE-SIGNIN-PLAN.md` on 2026-11-24). The app's older `docs/ACCOUNTS-PLAN.md` (open
 question 1, 2026-11-21) still says a personal account; that line is stale.
 
-**Contact:** `support@riffu.com`, on every legal page and the Support page.
+**Contact:** `support@getriffu.com`, on every legal page and the Support page.
 
 **Privacy Policy**
 
@@ -217,13 +219,13 @@ question 1, 2026-11-21) still says a personal account; that line is stale.
     app's `docs/PHASE-B-PLAN.md`, project `mabiewrwlaqqsikfokyn`). Confirm it in the Supabase
     dashboard before publishing.
 - **Children:** see **Age** below.
-- **Contact:** `support@riffu.com`.
+- **Contact:** `support@getriffu.com`.
 
 **Age** (see Inputs, item 3)
 
 - Riffu is for people **13 and over**. It is not directed to children under 13 and does not
   knowingly collect their data. If BOMAU learns an account belongs to a child under 13, it deletes
-  it; parents write to `support@riffu.com`.
+  it; parents write to `support@getriffu.com`.
 - Where local law sets a higher age for consenting to data processing (in the EU it ranges from
   13 to 16 by country; Spain sets 14), that age applies, and a younger learner needs a parent's or
   guardian's consent.
@@ -247,7 +249,7 @@ question 1, 2026-11-21) still says a personal account; that line is stale.
   (Apple is not responsible for the app, is a third-party beneficiary, and so on). Check Apple's
   current App Store Review Guidelines and the developer agreement for the exact list.
 - **Governing law:** New Mexico, United States.
-- **Contact:** `support@riffu.com`.
+- **Contact:** `support@getriffu.com`.
 - Have a lawyer read both before a paid launch campaign. This plan is not legal advice.
 
 **Delete your account**
@@ -298,17 +300,21 @@ so Bruno gets a Vercel preview link for each.
    - Smart App Banner.
    - Lighthouse pass.
 5. **Deploy**
-   - Bruno connects this repository to his Vercel account and adds `riffu.com` and `riffu.app`
+   - Bruno connects this repository to his Vercel account and adds `getriffu.com` and `getriffu.app`
      himself; the session writes down exactly which DNS records Vercel asks for.
-   - `riffu.app` set to redirect to `riffu.com`.
+   - **Keep the email working:** add Vercel's records (the apex record and the `www` CNAME) at
+     the registrar and leave its nameservers and its `MX`, SPF and DKIM records alone. Moving
+     the nameservers to Vercel would silently stop `support@getriffu.com` unless every mail
+     record is copied first. After the change, send a test message to the support address.
+   - `getriffu.app` set to redirect to `getriffu.com`.
    - HTTPS on both.
    - Every URL in **Done when** checked live.
 
 **After phase 5**, in the app repository (`maurino72/riffu`):
 
 - set `EXPO_PUBLIC_PRIVACY_URL` on EAS (production, preview and development) to
-  `https://riffu.com/privacy`;
-- change `TERMS_URL` in `src/pro/legal.ts` to `https://riffu.com/terms`;
+  `https://getriffu.com/privacy`;
+- change `TERMS_URL` in `src/pro/legal.ts` to `https://getriffu.com/terms`;
 - in App Store Connect: the privacy policy URL, the support URL, and the Terms as the custom
   licence agreement (or a link to `/terms` in the description, as Apple requires for
   subscriptions).
@@ -320,9 +326,9 @@ That is a separate change, in the app's own session.
 Every item is a check that passes or fails:
 
 - [ ] `npm run build` and `astro check` exit 0. CI is green on `main`.
-- [ ] Every page in the table above returns HTTP 200 on `https://riffu.com`, in both languages
+- [ ] Every page in the table above returns HTTP 200 on `https://getriffu.com`, in both languages
       (`curl -s -o /dev/null -w '%{http_code}'` for each).
-- [ ] `https://riffu.app/privacy` returns 308 with `Location: https://riffu.com/privacy`.
+- [ ] `https://getriffu.app/privacy` returns 308 with `Location: https://getriffu.com/privacy`.
 - [ ] Every App Store link and the QR code resolve to `apps.apple.com/app/id6838997064`.
 - [ ] The `apple-itunes-app` meta tag is present on every page.
 - [ ] Lighthouse (mobile) on `/` and `/es/`: Performance ≥ 95, Accessibility ≥ 95, Best
@@ -339,10 +345,10 @@ Every item is a check that passes or fails:
 
 Answered on 2026-11-25. Ask Bruno nothing more about these unless a fact changes.
 
-1. **Domain:** `riffu.com` (primary) and `riffu.app` (redirects). Bruno buys both; the session
-   never makes a purchase.
-2. **Support email:** `support@riffu.com`. **Still open:** the mailbox must exist and receive
-   mail before phase 3 publishes it.
+1. **Domain:** `getriffu.com` (primary) and `getriffu.app` (redirects), bought by Bruno on
+   2026-11-25; the session never makes a purchase.
+2. **Support email:** `support@getriffu.com`, on the registrar's email plan. **Still open:** the
+   mailbox must be created and receive a test message before phase 3 publishes it.
 3. **Minimum age:** 13 and over, as written under **Age**. This also answers open question 3 in
    the app's `docs/ACCOUNTS-PLAN.md`.
 4. **Vercel account:** Bruno has one and deploys himself at phase 5; the session never logs in on

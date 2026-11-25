@@ -1,0 +1,48 @@
+---
+import melo from '../assets/melo/look-down.svg';
+import { t } from '../i18n/ui';
+import Base from '../layouts/Base.astro';
+
+// One 404 for the whole site, in English (PLAN.md, "Pages"). It links to both home pages.
+const en = t('en');
+const es = t('es');
+---
+
+<Base locale="en" path="/" title={`${en.notFoundTitle} · Riffu`} description={en.notFoundText}>
+  <section class="container not-found">
+    <img src={melo.src} width="160" height="177" alt="" />
+    <h1>{en.notFoundHeading}</h1>
+    <p>{en.notFoundText}</p>
+    <p class="links">
+      <a class="button" href="/">
+        {en.notFoundBack}
+      </a>
+      <a href="/es/" lang="es" hreflang="es">
+        {es.notFoundBack}
+      </a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-block: clamp(3rem, 10vw, 6rem);
+  }
+
+  .not-found img {
+    width: 160px;
+    margin-bottom: 1.5rem;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 1.5rem;
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+import HomePlaceholder from '../../components/HomePlaceholder.astro';
+import { t } from '../../i18n/ui';
+import Base from '../../layouts/Base.astro';
+
+const s = t('es');
+---
+
+<Base locale="es" path="/" title={s.homeTitle} description={s.homeDescription}>
+  <HomePlaceholder locale="es" />
+</Base>

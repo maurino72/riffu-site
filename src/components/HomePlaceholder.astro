@@ -1,0 +1,24 @@
+---
+/**
+ * Phase 1 only: one heading so the page is valid while the landing is built in phase 2.
+ * PLAN.md, "The landing, top to bottom", replaces this whole component.
+ */
+import { t, type Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const s = t(Astro.props.locale);
+---
+
+<section class="container placeholder">
+  <h1>{s.homeHeading}</h1>
+  <p>{s.homeComing}</p>
+</section>
+
+<style>
+  .placeholder {
+    padding-block: clamp(3rem, 10vw, 6rem);
+  }
+</style>
