@@ -3,9 +3,11 @@ import '@fontsource/nunito/latin-600.css';
 import '@fontsource/nunito/latin-800.css';
 import '@fontsource/nunito/latin-900.css';
 import '../styles/global.css';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { t, type Locale } from '../i18n/ui';
+import { APP_STORE_ID, APP_STORE_URL, COMPANY, OG_IMAGE, SITE_URL } from '../config';
+import { LOCALES, t, type Locale } from '../i18n/ui';
 
 interface Props {
   locale: Locale;
@@ -13,10 +15,36 @@ interface Props {
   path: string;
   title: string;
   description: string;
+  /** Keep the page out of search results and the language alternates (the 404). */
+  noindex?: boolean;
+  /** Add the app's structured data (the home pages). */
+  appSchema?: boolean;
 }
 
-const { locale, path, title, description } = Astro.props;
+const { locale, path, title, description, noindex = false, appSchema = false } = Astro.props;
 const s = t(locale);
+
+// Absolute URLs, never with a trailing slash except the bare domain.
+const url = (l: Locale) =>
+  getAbsoluteLocaleUrl(l, path === '/' ? '' : path).replace(/(.)\/$/, '$1');
+const canonical = url(locale);
+// Open Graph locales use language_TERRITORY; es_LA is the Latin American Spanish code scrapers know.
+const ogLocale = { en: 'en_US', es: 'es_LA' } as const;
+const ogImage = new URL(OG_IMAGE[locale], SITE_URL).href;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'MobileApplication',
+  name: 'Riffu',
+  operatingSystem: 'iOS',
+  applicationCategory: 'EducationalApplication',
+  description,
+  url: canonical,
+  installUrl: APP_STORE_URL,
+  inLanguage: ['en', 'es'],
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  publisher: { '@type': 'Organization', name: COMPANY.name },
+};
 ---
 
 <!doctype html>
@@ -27,9 +55,41 @@ const s = t(locale);
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#7B3FE4" />
+    <meta name="apple-itunes-app" content={`app-id=${APP_STORE_ID}`} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {noindex ? (
+      <meta name="robots" content="noindex" />
+    ) : (
+      <>
+        <link rel="canonical" href={canonical} />
+        {LOCALES.map((l) => (
+          <link rel="alternate" hreflang={l} href={url(l)} />
+        ))}
+        <link rel="alternate" hreflang="x-default" href={url('en')} />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+      </>
+    )}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Riffu" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:locale" content={ogLocale[locale]} />
+    {LOCALES.filter((l) => l !== locale).map((l) => (
+      <meta property="og:locale:alternate" content={ogLocale[l]} />
+    ))}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content={String(OG_IMAGE.width)} />
+    <meta property="og:image:height" content={String(OG_IMAGE.height)} />
+    <meta property="og:image:alt" content={s.ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={s.ogImageAlt} />
+    {appSchema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
   </head>
   <body>
     <a class="skip-link" href="#main">

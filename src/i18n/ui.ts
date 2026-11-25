@@ -20,6 +20,8 @@ const en = {
   privacy: 'Privacy Policy',
   deleteAccount: 'Delete your account',
   support: 'Support',
+  ogImageAlt:
+    'Riffu: learn sax or clarinet with an app that listens. Melo and the tuner on an iPhone.',
   notFoundTitle: 'Page not found',
   notFoundHeading: 'This page is off the staff.',
   notFoundText: 'Melo looked everywhere and could not find it.',
@@ -40,6 +42,8 @@ const es: Record<keyof typeof en, string> = {
   privacy: 'Política de privacidad',
   deleteAccount: 'Borrar tu cuenta',
   support: 'Soporte',
+  ogImageAlt:
+    'Riffu: aprende saxo o clarinete con una app que te escucha. Melo y el afinador en un iPhone.',
   notFoundTitle: 'Página no encontrada',
   notFoundHeading: 'Esta página se salió del pentagrama.',
   notFoundText: 'Melo buscó por todas partes y no la encontró.',
