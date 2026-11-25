@@ -65,7 +65,7 @@ the close, not only in the footer.
 
 | Path (EN) | Path (ES) | What it is |
 |---|---|---|
-| `/` | `/es/` | The landing |
+| `/` | `/es` | The landing |
 | `/privacy` | `/es/privacy` | Privacy Policy |
 | `/terms` | `/es/terms` | Terms of Use |
 | `/delete-account` | `/es/delete-account` | How to delete your account and data |
@@ -282,7 +282,9 @@ question 1, 2026-11-21) still says a personal account; that line is stale.
 
 ## SEO and sharing
 
-- Title and description per language. Canonical URLs, and `hreflang` between `/` and `/es/`.
+- Title and description per language. Canonical URLs, and `hreflang` between `/` and `/es`.
+  Every URL is written without a trailing slash (Astro `trailingSlash: 'never'`, and
+  `vercel.json` `trailingSlash: false` redirects the slashed form).
 - Open Graph and Twitter card tags with the per-language image.
 - `sitemap.xml` (Astro's sitemap integration) and `robots.txt`.
 - JSON-LD `MobileApplication`: name, operating system iOS, category EducationalApplication, the

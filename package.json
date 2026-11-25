@@ -16,6 +16,7 @@
     "ci": "npm run check && npm run build && npm run format:check && npm run links"
   },
   "dependencies": {
+    "@astrojs/sitemap": "3.7.6",
     "@fontsource/nunito": "5.3.0",
     "astro": "7.4.13"
   },
