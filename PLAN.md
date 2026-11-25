@@ -94,8 +94,8 @@ app does).
 1. **Header** (sticky, thin): the `riffu` wordmark (violet), the language switcher, and a small
    "Download" button to the App Store.
 2. **Hero**
-   - Headline about learning to play with an app that listens. Direction: "Learn the sax with
-     an app that listens." Keep it under eight words.
+   - Headline about learning to play with an app that listens. Built as "Learn sax or clarinet
+     with an app that listens." (eight words), so clarinet learners are not left out.
    - One-line subhead: lessons of a few minutes, on the staff, with feedback on every note.
    - The official **Download on the App Store** badge (Apple's artwork, English or Spanish to
      match the page).
@@ -113,7 +113,11 @@ app does).
    - A song to unlock in every unit.
    - Drone, metronome and theory tools.
    - Warm-ups and a daily practice reminder.
-   - Streaks and leagues to keep practising.
+   - Streaks, XP and badges to keep practising. (Changed 2026-11-25: the app has no leagues
+     yet. Its Awards tab shows the week's XP and badges, and `src/leagues/Leagues.tsx` says
+     leagues arrive once accounts exist. Say "leagues" only when they ship.)
+   - Below the cards, a sideways-scrolling row of five app screens (lesson, course, songs,
+     practice tools, profile), cropped from the store screenshots, each with its store caption.
 5. **Instruments:** saxophone (alto, tenor, soprano, baritone) and B-flat clarinet. Checked
    2026-11-25 against `AVAILABLE` in the app's `src/tuner/notes.ts`; re-check before writing.
 6. **Pro:** what Pro adds, in the paywall's own order (`paywall.features` in the app's

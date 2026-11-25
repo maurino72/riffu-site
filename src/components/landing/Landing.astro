@@ -1,0 +1,25 @@
+---
+/** The landing, top to bottom, as PLAN.md lists it. The header and footer come from the layout. */
+import type { Locale } from '../../i18n/ui';
+import Closing from './Closing.astro';
+import Faq from './Faq.astro';
+import Features from './Features.astro';
+import Hero from './Hero.astro';
+import HowItWorks from './HowItWorks.astro';
+import Instruments from './Instruments.astro';
+import Pro from './Pro.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<Hero locale={locale} />
+<HowItWorks locale={locale} />
+<Features locale={locale} />
+<Instruments locale={locale} />
+<Pro locale={locale} />
+<Faq locale={locale} />
+<Closing locale={locale} />

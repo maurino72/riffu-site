@@ -1,0 +1,99 @@
+---
+import { APP_STORE_URL } from '../../config';
+import { landing } from '../../i18n/landing';
+import { t, type Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = landing[locale].pro;
+---
+
+<section class="section" aria-labelledby="pro-heading">
+  <div class="container">
+    <div class="card">
+      <h2 id="pro-heading">{s.heading}</h2>
+      <p class="intro">{s.intro}</p>
+      <ul>
+        {s.list.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <p class="trial">{s.trial}</p>
+      <p class="prices">{s.prices}</p>
+      <a class="button light" href={APP_STORE_URL}>
+        {t(locale).downloadLabel}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .card {
+    padding: clamp(1.75rem, 5vw, 3rem);
+    border-radius: 24px;
+    background: var(--violet);
+    color: var(--on-violet);
+  }
+
+  h2 {
+    color: var(--on-violet);
+  }
+
+  .intro {
+    font-size: 1.1875rem;
+  }
+
+  ul {
+    display: grid;
+    gap: 0.5rem 2rem;
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+  }
+
+  li {
+    display: flex;
+    gap: 0.625rem;
+    align-items: baseline;
+    font-weight: 800;
+  }
+
+  li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    background: var(--brass);
+    transform: translateY(0.05em);
+  }
+
+  .trial {
+    font-weight: 900;
+    font-size: 1.1875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .prices {
+    margin-bottom: 1.5rem;
+  }
+
+  .light {
+    background: var(--surface);
+    color: var(--violet-dark);
+    box-shadow: 0 3px 0 var(--violet-dark);
+  }
+
+  .light:hover {
+    background: var(--violet-light);
+  }
+
+  @media (min-width: 760px) {
+    ul {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
