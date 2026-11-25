@@ -1,0 +1,172 @@
+---
+import { COMPANY, SUPPORT_EMAIL } from '../../config';
+import Legal from '../../layouts/Legal.astro';
+
+// The Spanish version of /privacy. Keep both in step: the same facts, section by section.
+---
+
+<Legal
+  locale="es"
+  path="/privacy"
+  title="Política de privacidad"
+  description="Qué recopila Riffu, para qué, quién lo procesa y cómo borrarlo."
+>
+  <p>
+    Riffu es una app para aprender saxofón y clarinete. La opera {COMPANY.name} ("nosotros"). Esta
+    política explica qué recopilan la app y este sitio web, para qué, y qué puedes hacer al
+    respecto.
+  </p>
+
+  <h2>En pocas palabras</h2>
+  <ul>
+    <li>Puedes usar Riffu sin cuenta. En ese caso todo queda en tu teléfono.</li>
+    <li>
+      El micrófono se usa solo para encontrar la afinación de las notas que tocas, en tu teléfono.
+      El sonido nunca se graba ni se envía a ningún lado.
+    </li>
+    <li>No hay anuncios, ni analítica, ni rastreo, ni en la app ni en este sitio web.</li>
+    <li>Si creas una cuenta, puedes borrarla con todos sus datos desde la app cuando quieras.</li>
+  </ul>
+
+  <h2>Sin cuenta</h2>
+  <p>
+    Tu progreso, tus ajustes y tu historial de práctica se guardan solo en tu teléfono. No los
+    recibimos. Si borras la app, se borran.
+  </p>
+
+  <h2>Con cuenta</h2>
+  <p>
+    Una cuenta te permite conservar tu progreso cuando cambias de teléfono. Inicias sesión con un
+    código de un solo uso que te enviamos por email, o con Iniciar sesión con Apple. Con una cuenta,
+    guardamos:
+  </p>
+  <ul>
+    <li>
+      <strong>Tu dirección de email</strong>, para iniciar sesión. Con Iniciar sesión con Apple,
+      puede ser la dirección privada de reenvío que Apple crea para ti.
+    </li>
+    <li>
+      <strong>Tu nombre</strong>, si lo compartes con Iniciar sesión con Apple o lo escribes, y tu
+      instrumento e idioma.
+    </li>
+    <li>
+      <strong>Tu progreso en el curso:</strong> las lecciones que terminaste, tus XP, los días que
+      practicaste y tu racha, tu meta diaria, tus pulsos y las preguntas que esperan tu repaso.
+      También incluye un identificador que la app crea para cada teléfono, para poder unir el
+      progreso de dos teléfonos.
+    </li>
+    <li>
+      <strong>Tu historial de práctica:</strong> por día, los minutos que practicaste y las notas
+      que fallaste, y la nota que afinaste y cuánto se alejó del objetivo, en cents.
+    </li>
+    <li>
+      <strong>Si tienes Pro</strong> y cuándo vence.
+    </li>
+    <li>
+      <strong>Un token de Apple</strong>, si usas Iniciar sesión con Apple. Lo guardamos solo para
+      pedirle a Apple que corte el acceso de Riffu cuando borras tu cuenta.
+    </li>
+  </ul>
+  <p>
+    Usamos estos datos solo para que Riffu funcione para ti: iniciar tu sesión, conservar tu
+    progreso y saber si tienes Pro. No los vendemos, no los compartimos para publicidad y no los
+    usamos para armar un perfil tuyo.
+  </p>
+
+  <h2>El micrófono</h2>
+  <p>
+    Riffu pide el micrófono para escuchar tu instrumento. El sonido se analiza en tu teléfono para
+    encontrar la afinación de cada nota. Nunca se graba en un archivo ni se envía a nosotros ni a
+    nadie. Puedes quitarle el micrófono a Riffu en los ajustes de tu teléfono; entonces el afinador
+    y las lecciones que escuchan no funcionarán.
+  </p>
+
+  <h2>Notificaciones</h2>
+  <p>
+    Si activas el recordatorio diario de práctica, tu teléfono lo programa. No se nos envía ningún
+    token de notificaciones.
+  </p>
+
+  <h2>Compras</h2>
+  <p>
+    Pro se vende a través del App Store. Apple gestiona el pago; nunca vemos los datos de tu
+    tarjeta. Usamos RevenueCat para gestionar las suscripciones: recibe el identificador de tu
+    cuenta de Riffu y tu historial de compras, para que Pro siga a tu cuenta.
+  </p>
+
+  <h2>Quién procesa tus datos</h2>
+  <ul>
+    <li>
+      <strong>Supabase</strong> guarda tu cuenta y sus datos, en servidores de Estados Unidos.
+    </li>
+    <li>
+      <strong>Apple</strong>, para Iniciar sesión con Apple y las compras en el App Store.
+    </li>
+    <li>
+      <strong>RevenueCat</strong>, para las suscripciones.
+    </li>
+    <li>
+      <strong>Vercel</strong> aloja este sitio web. Para entregar sus páginas procesa tu dirección
+      IP y puede guardarla en registros del servidor de corta duración.
+    </li>
+  </ul>
+  <p>
+    Cada uno procesa datos solo para darnos su servicio. Si vives fuera de Estados Unidos, tus datos
+    se transfieren y se procesan en Estados Unidos.
+  </p>
+
+  <h2>Este sitio web</h2>
+  <p>
+    Este sitio no usa cookies ni ejecuta analítica o rastreo. Sus fuentes e imágenes se sirven desde
+    este mismo sitio, no desde terceros.
+  </p>
+
+  <h2>Cuánto tiempo guardamos los datos</h2>
+  <p>
+    Guardamos los datos de tu cuenta hasta que la borras. Cuando la borras, eliminamos tu cuenta y
+    todos sus datos en el acto. Pueden quedar copias en los respaldos de nuestros proveedores
+    durante un tiempo limitado, hasta que se sobrescriben. Apple y RevenueCat conservan sus propios
+    registros de compras, según sus propias políticas.
+  </p>
+
+  <h2>Tus opciones y derechos</h2>
+  <ul>
+    <li>
+      <strong>Borrar:</strong> borra tu cuenta en la app, o sigue
+      <a href="/es/delete-account">Borrar tu cuenta</a>.
+    </li>
+    <li>
+      <strong>Acceder, corregir o exportar:</strong> escribe a{' '}
+      <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> desde el email de tu cuenta y te
+      responderemos en un plazo de 30 días.
+    </li>
+    <li>
+      Según dónde vivas, puedes tener más derechos, como oponerte al tratamiento o reclamar ante tu
+      autoridad de protección de datos. Escríbenos y te ayudamos.
+    </li>
+  </ul>
+
+  <h2>Menores</h2>
+  <p>
+    Riffu es para mayores de 13 años. No está dirigida a menores de 13 y no recopilamos sus datos a
+    sabiendas. Donde la ley local fija una edad mayor para consentir el tratamiento de datos (por
+    ejemplo, 14 en España), se aplica esa edad, y quien sea menor necesita el consentimiento de su
+    madre, padre o tutor. Si crees que un menor de 13 tiene una cuenta, escribe a{' '}
+    <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> y la borraremos.
+  </p>
+
+  <h2>Cambios</h2>
+  <p>
+    Si cambia lo que Riffu recopila, actualizamos esta página antes de publicar esa versión de la
+    app, y cambiamos la fecha de arriba.
+  </p>
+
+  <h2>Contacto</h2>
+  <address>
+    {COMPANY.name}
+    <br />
+    {COMPANY.address}
+    <br />
+    <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+  </address>
+</Legal>

@@ -1,0 +1,68 @@
+---
+import { SUPPORT_EMAIL } from '../../config';
+import Legal from '../../layouts/Legal.astro';
+
+// Pasos y textos como en la app: pestaña Perfil → Cuenta → "Borrar cuenta" → "Borrar para siempre".
+---
+
+<Legal
+  locale="es"
+  path="/delete-account"
+  title="Borrar tu cuenta"
+  description="Cómo borrar tu cuenta de Riffu y todos sus datos, desde la app o por email."
+>
+  <h2>En la app</h2>
+  <ol>
+    <li>
+      Abre Riffu y ve a la pestaña <strong>Perfil</strong>.
+    </li>
+    <li>
+      En la sección <strong>Cuenta</strong>, toca <strong>Borrar cuenta</strong>.
+    </li>
+    <li>
+      Confirma con <strong>Borrar para siempre</strong>.
+    </li>
+  </ol>
+  <p>
+    Se hace en el acto y no se puede deshacer. Después, Riffu te olvida en ese teléfono, como si
+    hubieras cerrado sesión.
+  </p>
+
+  <h2>Si tienes Pro, cancélalo primero</h2>
+  <p>
+    Borrar tu cuenta no detiene los cobros de Apple. Cancela antes la suscripción: abre Ajustes en
+    tu iPhone, toca tu nombre y luego <strong>Suscripciones</strong>. La app te lo recuerda antes de
+    borrar la cuenta.
+  </p>
+
+  <h2>Qué se borra</h2>
+  <ul>
+    <li>Tu cuenta y su dirección de email.</li>
+    <li>Tu nombre, instrumento e idioma.</li>
+    <li>Tu progreso en el curso, tus XP, tu racha y tu historial de práctica.</li>
+    <li>El registro de si tienes Pro.</li>
+    <li>Si usaste Iniciar sesión con Apple, se revoca el acceso de Riffu a tu Apple ID.</li>
+  </ul>
+  <p>
+    Pueden quedar copias en los respaldos de nuestros proveedores durante un tiempo limitado, hasta
+    que se sobrescriben. Apple y RevenueCat conservan sus propios registros de compras, según sus
+    propias políticas.
+  </p>
+
+  <h2>Si no puedes abrir la app</h2>
+  <p>
+    Escribe a <a href={`mailto:${SUPPORT_EMAIL}?subject=Borrar%20mi%20cuenta`}>{SUPPORT_EMAIL}</a>{' '}
+    desde el email de tu cuenta, con el asunto "Borrar mi cuenta". La borramos en un plazo de 30
+    días y te respondemos cuando esté hecho. Si usaste Iniciar sesión con Apple con una dirección
+    privada de reenvío, escribe desde la dirección que la recibe, o dinos cuál usaste.
+  </p>
+
+  <h2>Sin cuenta</h2>
+  <p>
+    Si nunca creaste una cuenta, tus datos viven solo en tu teléfono. Si borras la app, se borran.
+  </p>
+
+  <p>
+    Más sobre tus datos en la <a href="/es/privacy">Política de privacidad</a>.
+  </p>
+</Legal>

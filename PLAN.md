@@ -262,7 +262,9 @@ question 1, 2026-11-21) still says a personal account; that line is stale.
 
 **Delete your account**
 
-- Steps in the app, with a screenshot.
+- Steps in the app: Profile tab, Account section, "Delete account", then "Delete for good"
+  (`src/account/AccountSection.tsx`). **Screenshot deferred:** no capture of the Account section
+  exists in the app repository; add one once the app's store-capture tooling produces it.
 - What is deleted (everything listed above), and what is not: Apple and RevenueCat keep their own
   purchase records.
 - Pro is not cancelled by deleting the account: cancel it in the Apple ID settings first.

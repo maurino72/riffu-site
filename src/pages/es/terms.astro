@@ -1,0 +1,162 @@
+---
+import { COMPANY, SUPPORT_EMAIL } from '../../config';
+import Legal from '../../layouts/Legal.astro';
+
+// The Spanish version of /terms. Keep both in step: the same clauses, in the same order.
+---
+
+<Legal
+  locale="es"
+  path="/terms"
+  title="Términos de uso"
+  description="Los términos para usar Riffu y su suscripción opcional Pro."
+>
+  <p>
+    Estos Términos son un acuerdo entre tú y {COMPANY.name} ("nosotros") para el uso de la app Riffu
+    y de este sitio web. Al descargar o usar Riffu, los aceptas. Si no los aceptas, no uses Riffu.
+  </p>
+
+  <h2>1. Quién puede usar Riffu</h2>
+  <p>
+    Debes tener 13 años o más. Si tienes menos de 18, o menos de la mayoría de edad donde vives,
+    puedes usar Riffu solo con permiso de tu madre, padre o tutor, que acepta estos Términos por ti.
+  </p>
+
+  <h2>2. El servicio</h2>
+  <p>
+    Riffu enseña saxofón y clarinete con lecciones, un afinador y herramientas de práctica. Es
+    gratis. Pro es una suscripción opcional que suma más, como se describe en la app. Podemos
+    agregar, cambiar o quitar funciones con el tiempo.
+  </p>
+
+  <h2>3. Tu cuenta</h2>
+  <p>
+    Puedes usar Riffu sin cuenta. Si creas una, cuida el acceso a tu email o a tu Apple ID, porque
+    así inicias sesión. Puedes borrar tu cuenta cuando quieras; mira
+    <a href="/es/delete-account">Borrar tu cuenta</a>.
+  </p>
+
+  <h2>4. Suscripciones Pro</h2>
+  <ul>
+    <li>Pro se vende a través del App Store y Apple lo cobra a tu Apple ID.</li>
+    <li>
+      La suscripción se renueva sola al final de cada período, salvo que la canceles al menos 24
+      horas antes de que termine. La renovación se cobra dentro de las 24 horas previas al final del
+      período.
+    </li>
+    <li>
+      Si se ofrece una prueba gratis, al terminar se convierte en una suscripción paga, salvo que la
+      canceles al menos 24 horas antes.
+    </li>
+    <li>
+      Para cancelar, abre Ajustes en tu iPhone, toca tu nombre y luego Suscripciones. Borrar la app
+      o tu cuenta de Riffu no cancela la suscripción.
+    </li>
+    <li>
+      Los precios se muestran en el App Store antes de comprar. Los reembolsos los gestiona Apple
+      según sus propias políticas.
+    </li>
+  </ul>
+
+  <h2>5. Uso aceptable</h2>
+  <p>
+    Usa Riffu para tu propio aprendizaje. No copies, revendas ni redistribuyas la app ni su
+    contenido, no intentes romper ni saltarte su seguridad o sus funciones Pro, no le hagas
+    ingeniería inversa salvo donde la ley lo permita, y no la uses de un modo que viole la ley o
+    dañe a otros.
+  </p>
+
+  <h2>6. Nuestro contenido</h2>
+  <p>
+    Riffu, sus lecciones, su música, sus dibujos, el nombre Riffu y el personaje Melo pertenecen a
+    {COMPANY.name} o a sus licenciantes. Te damos una licencia personal, no exclusiva e
+    intransferible para usar la app en dispositivos Apple que tengas o controles, como lo permiten
+    las Reglas de uso del App Store.
+  </p>
+
+  <h2>7. Exenciones</h2>
+  <p>
+    Riffu te ayuda a practicar; no garantiza ningún resultado y no reemplaza a un profesor cuando lo
+    necesitas. Toca a un volumen y durante un tiempo que sean seguros para ti. En la medida en que
+    la ley lo permita, Riffu se ofrece "tal cual", sin garantías de ningún tipo.
+  </p>
+
+  <h2>8. Limitación de responsabilidad</h2>
+  <p>
+    En la medida en que la ley lo permita, {COMPANY.name} no responde por daños indirectos,
+    incidentales o consecuentes, y su responsabilidad total ante ti se limita a lo que pagaste por
+    Riffu en los doce meses anteriores al reclamo. Algunos lugares no permiten estos límites, así
+    que pueden no aplicarse a ti.
+  </p>
+
+  <h2>9. Terminación</h2>
+  <p>
+    Puedes dejar de usar Riffu y borrar tu cuenta cuando quieras. Podemos suspender o cortar el
+    acceso a quien viole estos Términos.
+  </p>
+
+  <h2>10. Apple</h2>
+  <p>Si obtuviste Riffu en el App Store, también se aplica lo siguiente:</p>
+  <ul>
+    <li>
+      Estos Términos son solo entre tú y {COMPANY.name}, no con Apple. {COMPANY.name}, y no Apple,
+      es responsable de Riffu y de su contenido.
+    </li>
+    <li>
+      Apple no tiene ninguna obligación de dar mantenimiento ni soporte a Riffu. Escríbenos para
+      pedir soporte.
+    </li>
+    <li>
+      Si Riffu no cumple alguna garantía aplicable, puedes avisar a Apple, y Apple te reembolsará el
+      precio de compra, si lo hubo. En la medida en que la ley lo permita, Apple no tiene ninguna
+      otra obligación de garantía sobre Riffu, y cualquier otro reclamo, pérdida o costo por no
+      cumplir una garantía es responsabilidad nuestra.
+    </li>
+    <li>
+      {COMPANY.name}, y no Apple, responde por cualquier reclamo sobre Riffu, incluidos los de
+      responsabilidad por producto, los de incumplimiento de requisitos legales o regulatorios, y
+      los basados en leyes de protección al consumidor, de privacidad o similares.
+    </li>
+    <li>
+      Si un tercero afirma que Riffu o tu uso de la app infringe su propiedad intelectual,{' '}
+      {COMPANY.name}, y no Apple, es responsable de investigar, defender y resolver ese reclamo.
+    </li>
+    <li>
+      Confirmas que no estás en un país sujeto a un embargo del Gobierno de Estados Unidos ni
+      designado como país que "apoya el terrorismo", y que no figuras en ninguna lista de partes
+      prohibidas o restringidas del Gobierno de Estados Unidos.
+    </li>
+    <li>Debes cumplir los términos de terceros que se apliquen cuando usas Riffu.</li>
+    <li>
+      Apple y sus subsidiarias son terceros beneficiarios de estos Términos. Una vez que los
+      aceptas, Apple tiene derecho a hacerlos cumplir frente a ti como tercero beneficiario.
+    </li>
+  </ul>
+
+  <h2>11. Ley aplicable</h2>
+  <p>
+    Estos Términos se rigen por las leyes del Estado de Nuevo México, Estados Unidos, sin tener en
+    cuenta sus normas sobre conflicto de leyes. Esto no te quita ninguna protección que te dé la ley
+    de consumo del país donde vives.
+  </p>
+
+  <h2>12. Cambios</h2>
+  <p>
+    Podemos actualizar estos Términos. Si un cambio es importante, lo diremos en la app o en esta
+    página antes de que entre en vigor, y cambiaremos la fecha de arriba. Si sigues usando Riffu
+    después, aceptas los nuevos Términos.
+  </p>
+
+  <h2>13. Contacto</h2>
+  <p>Las preguntas, quejas y reclamos van a:</p>
+  <address>
+    {COMPANY.name}
+    <br />
+    {COMPANY.address}
+    <br />
+    <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>
+  </address>
+  <p>
+    Nuestra <a href="/es/privacy">Política de privacidad</a> explica cómo tratamos tus datos.
+  </p>
+</Legal>
