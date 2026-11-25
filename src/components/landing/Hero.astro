@@ -1,0 +1,77 @@
+---
+import { Picture } from 'astro:assets';
+import tunerEn from '../../assets/screens/en/01-tuner.jpg';
+import tunerEs from '../../assets/screens/es/01-tuner.jpg';
+import { landing } from '../../i18n/landing';
+import type { Locale } from '../../i18n/ui';
+import AppStoreDownload from '../AppStoreDownload.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = landing[locale].hero;
+---
+
+<section class="hero">
+  <div class="container grid">
+    <div class="copy">
+      <h1>{s.heading}</h1>
+      <p class="sub">{s.sub}</p>
+      <AppStoreDownload locale={locale} />
+    </div>
+    <div class="visual">
+      <Picture
+        src={locale === 'es' ? tunerEs : tunerEn}
+        formats={['avif', 'webp']}
+        widths={[360, 540, 720, 1032]}
+        sizes="(min-width: 900px) 420px, min(calc(100vw - 2rem), 320px)"
+        alt={s.imageAlt}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block: clamp(2rem, 6vw, 4.5rem) 0;
+    background: linear-gradient(180deg, var(--violet-tint), var(--surface));
+  }
+
+  .grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  .sub {
+    max-width: 34rem;
+    font-size: 1.1875rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .visual {
+    justify-self: center;
+    width: min(100%, 320px);
+  }
+
+  .visual :global(img) {
+    width: 100%;
+    border-radius: 28px;
+    box-shadow: 0 24px 48px -24px rgb(43 20 88 / 0.45);
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 3rem;
+    }
+
+    .visual {
+      width: min(100%, 420px);
+    }
+  }
+</style>

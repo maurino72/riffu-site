@@ -1,0 +1,46 @@
+---
+import cheer from '../../assets/melo/cheer.svg';
+import { landing } from '../../i18n/landing';
+import type { Locale } from '../../i18n/ui';
+import AppStoreDownload from '../AppStoreDownload.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = landing[locale].closing;
+---
+
+<section class="section" aria-labelledby="closing-heading">
+  <div class="container">
+    <div class="card">
+      <img class="melo" src={cheer.src} width="132" height="146" alt="" />
+      <h2 id="closing-heading">{s.heading}</h2>
+      <p>{s.text}</p>
+      <AppStoreDownload locale={locale} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: clamp(2rem, 6vw, 3.5rem) 1.5rem;
+    border-radius: 24px;
+    background: var(--violet-tint);
+  }
+
+  .melo {
+    width: 132px;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1875rem;
+    margin-bottom: 1.75rem;
+  }
+</style>

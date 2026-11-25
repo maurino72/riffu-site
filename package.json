@@ -12,7 +12,7 @@
     "check": "astro check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "links": "linkinator 404.html --server-root ./dist --recurse --check-css --check-fragments --skip \"^https?://(?!localhost|127\\\\.0\\\\.0\\\\.1)\"",
+    "links": "linkinator ./dist --recurse --check-css --check-fragments --skip \"^https?://(?!localhost|127\\\\.0\\\\.0\\\\.1)\" && linkinator 404.html --server-root ./dist --check-css --check-fragments --skip \"^https?://(?!localhost|127\\\\.0\\\\.0\\\\.1)\"",
     "ci": "npm run check && npm run build && npm run format:check && npm run links"
   },
   "dependencies": {
@@ -21,9 +21,11 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.12",
+    "@types/qrcode": "1.5.6",
     "linkinator": "8.1.0",
     "prettier": "3.10.1",
     "prettier-plugin-astro": "1.1.2",
+    "qrcode": "1.5.4",
     "typescript": "6.0.3"
   }
 }

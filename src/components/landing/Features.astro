@@ -1,0 +1,122 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { landing } from '../../i18n/landing';
+import type { Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s = landing[locale].features;
+
+// Every store screen, cropped to the phone, by language and id.
+const shots = import.meta.glob<{ default: ImageMetadata }>('../../assets/screens/*/*.jpg', {
+  eager: true,
+});
+const shot = (id: string) => shots[`../../assets/screens/${locale}/${id}.jpg`].default;
+---
+
+<section class="section features" aria-labelledby="features-heading">
+  <div class="container">
+    <h2 id="features-heading">{s.heading}</h2>
+    <ul class="cards">
+      {s.cards.map((card) => (
+        <li>
+          <h3>{card.title}</h3>
+          <p>{card.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <div class="container">
+    <ul class="screens" aria-label={s.screensLabel} tabindex="0">
+      {s.screens.map((screen) => (
+        <li>
+          <figure>
+            <Picture
+              src={shot(screen.id)}
+              formats={['avif', 'webp']}
+              widths={[260, 390, 520]}
+              sizes="260px"
+              alt={screen.alt}
+            />
+            <figcaption>{screen.caption}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cards {
+    display: grid;
+    gap: 1rem;
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+  }
+
+  .cards li {
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius);
+    background: var(--violet-tint);
+    border-left: 6px solid var(--brass);
+  }
+
+  .cards h3 {
+    font-size: 1.1875rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .cards p {
+    margin: 0;
+  }
+
+  .screens {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 260px;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0.25rem 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+  }
+
+  .screens li {
+    scroll-snap-align: start;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .screens :global(img) {
+    width: 260px;
+    border-radius: 20px;
+  }
+
+  figcaption {
+    margin-top: 0.75rem;
+    font-weight: 800;
+    color: var(--ink);
+    text-align: center;
+  }
+
+  @media (min-width: 760px) {
+    .cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1040px) {
+    .cards {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
