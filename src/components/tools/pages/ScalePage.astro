@@ -27,7 +27,7 @@ const s = tools[locale];
 const p = s.scalePage;
 const name = instrumentName(locale, instrument);
 const key = `${tonicLabel(tonic, locale)} ${p.modeName[mode]}`;
-const concert = `${concertTonic(tonic, instrument, locale)} ${p.modeName[mode]}`;
+const concert = `${concertTonic(tonic, instrument, locale, mode)} ${p.modeName[mode]}`;
 const notes = scaleNotes(tonic, mode);
 const url = (path: string) => getRelativeLocaleUrl(locale, path);
 ---

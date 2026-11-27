@@ -84,6 +84,7 @@ const en = {
     unsupported:
       'This browser cannot use the microphone here. Try the latest Safari, Chrome, Edge or Firefox.',
     insecure: 'The microphone needs a secure (https) page.',
+    noscript: 'The tuner needs JavaScript. Turn it on to use it.',
   },
 
   fingeringIndex: {
@@ -186,7 +187,7 @@ const es: typeof en = {
       'Elige tu instrumento, toca Empezar y toca una nota larga. El afinador muestra la nota que lees en la partitura, cuánto te falta para afinar y la nota real que suena.',
     instrumentTitle: (name: string) => `Afinador online gratis para ${name}`,
     instrumentDescription: (name: string) =>
-      `Un afinador online gratis para ${name}. Toca una nota y mira la nota escrita que lees, cuántos cents te pasas o te faltas y la nota real. Sin registro y sin descargar nada.`,
+      `Un afinador online gratis para ${name}. Toca una nota y mira la nota escrita que lees, cuántos cents te pasas o te quedas corto y la nota real. Sin registro y sin descargar nada.`,
     instrumentHeading: (name: string) => `Afinador gratis para ${name}`,
     instrumentIntro: (name: string, shift: string) =>
       `Este afinador está ajustado para ${name}. Muestra la nota escrita que lees y la nota real que suena, ${shift}. Toca Empezar y toca una nota larga y firme.`,
@@ -231,6 +232,7 @@ const es: typeof en = {
     unsupported:
       'Este navegador no puede usar el micrófono aquí. Prueba con la última versión de Safari, Chrome, Edge o Firefox.',
     insecure: 'El micrófono necesita una página segura (https).',
+    noscript: 'El afinador necesita JavaScript. Actívalo para usarlo.',
   },
 
   fingeringIndex: {
@@ -277,7 +279,7 @@ const es: typeof en = {
     intro: 'Elige tu instrumento y luego una tonalidad. Las escalas están escritas como las lees.',
   },
   scalesInstrument: {
-    title: (name: string) => `Escalas de ${name}: mayores y menores en todas las tonalidades`,
+    title: (name: string) => `Escalas de ${name}: mayores y menores`,
     description: (name: string) =>
       `Escalas mayores y menores para ${name}, escritas como las lees, con la tonalidad real y la digitación de cada nota.`,
     heading: (name: string) => `Escalas de ${name}`,
@@ -304,7 +306,8 @@ const es: typeof en = {
 export const tools: Record<Locale, typeof en> = { en, es };
 
 /** Mid-sentence use of an instrument name: `alto sax`, `saxo alto`. */
-export const lowerFirst = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
+export const lowerFirst = (s: string) =>
+  /^[A-G][♭♯#]/.test(s) ? s : s.charAt(0).toLowerCase() + s.slice(1);
 
 export const upperFirst = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 

@@ -4,7 +4,7 @@ import { instrumentName, tools, upperFirst } from '../../../i18n/tools';
 import type { Locale } from '../../../i18n/ui';
 import Tool from '../../../layouts/Tool.astro';
 import { wordsFor } from '../../../lib/fingering';
-import { concertNote, FAMILY, mod12, noteLabel, RANGE, type Instrument } from '../../../lib/notes';
+import { concertLabel, FAMILY, mod12, noteLabel, RANGE, type Instrument } from '../../../lib/notes';
 import { MODES, TONICS, tonicLabel } from '../../../lib/scales';
 import { fingeringPath, scalesPath, tunerPath } from '../../../lib/tool-paths';
 import FingeringChart from '../FingeringChart.astro';
@@ -20,7 +20,7 @@ const s = tools[locale];
 const p = s.fingeringNote;
 const name = instrumentName(locale, instrument);
 const note = noteLabel(midi, locale);
-const concert = noteLabel(concertNote(midi, instrument), locale);
+const concert = concertLabel(midi, instrument, locale);
 const [low, high] = RANGE[FAMILY[instrument]];
 const url = (path: string) => getRelativeLocaleUrl(locale, path);
 

@@ -59,6 +59,7 @@ export function detectPitch(
   }
 
   // The highest point between each pair of rising and falling zero crossings is a candidate.
+  // A lobe still rising at the end of the lag range is cut off, not a peak, so it is dropped.
   const peaks: number[] = [];
   let tau = 1;
   while (tau <= maxLag && nsdf[tau] > 0) tau++; // skip the lobe around lag 0
@@ -66,20 +67,37 @@ export function detectPitch(
     while (tau <= maxLag && nsdf[tau] <= 0) tau++;
     let best = -1;
     while (tau <= maxLag && nsdf[tau] > 0) {
-      if (tau >= minLag && (best < 0 || nsdf[tau] > nsdf[best])) best = tau;
+      if (best < 0 || nsdf[tau] > nsdf[best]) best = tau;
       tau++;
     }
-    if (best > 0) peaks.push(best);
+    if (best > 1 && best < maxLag) peaks.push(best);
   }
   if (!peaks.length) return null;
 
-  // Take the first candidate close to the strongest one: the true period, not a multiple of it.
+  // A strong peak below the shortest lag means the note is above the range: what is left are
+  // its multiples, which would read as a clean note an octave or more too low (a squeak).
   const top = Math.max(...peaks.map((p) => nsdf[p]));
-  const pick = peaks.find((p) => nsdf[p] >= 0.9 * top)!;
+  if (peaks.some((p) => p < minLag && nsdf[p] >= 0.9 * top)) return null;
+  const inRange = peaks.filter((p) => p >= minLag);
+  if (!inRange.length) return null;
+
+  // Take the first candidate close to the strongest one: the true period, not a multiple of it.
+  let pick = inRange.find((p) => nsdf[p] >= 0.9 * top)!;
+  const height = (p: number) => parabola(nsdf[p - 1], nsdf[p], nsdf[p + 1], p)[1];
+  // Octave check: when the fundamental is weak the half period scores almost as well, so a peak
+  // at twice the lag that scores higher is the real period.
+  for (;;) {
+    const double = inRange.find((p) => Math.abs(p - 2 * pick) <= Math.max(2, pick * 0.03));
+    if (double === undefined || height(double) < height(pick) + OCTAVE_MARGIN) break;
+    pick = double;
+  }
   const [lag, clarity] = parabola(nsdf[pick - 1], nsdf[pick], nsdf[pick + 1], pick);
   if (clarity < minClarity) return null;
   return { hz: sampleRate / lag, clarity: Math.min(1, clarity), rms: level };
 }
+
+/** How much better the double period must score to be preferred over the first candidate. */
+const OCTAVE_MARGIN = 0.002;
 
 /** Vertex of the parabola through three neighbouring points: [position, height]. */
 function parabola(a: number, b: number, c: number, x: number): [number, number] {

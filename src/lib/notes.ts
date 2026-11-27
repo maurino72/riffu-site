@@ -89,3 +89,24 @@ export function writtenNotes(instrument: Instrument): number[] {
   const [low, high] = RANGE[FAMILY[instrument]];
   return Array.from({ length: high - low + 1 }, (_, i) => low + i);
 }
+
+const CONCERT_FLATS: Record<Locale, string[]> = {
+  en: ['C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G', 'Ab', 'A', 'Bb', 'B'],
+  es: ['Do', 'Reb', 'Re', 'Mib', 'Mi', 'Fa', 'Solb', 'Sol', 'Lab', 'La', 'Sib', 'Si'],
+};
+
+/**
+ * The note that sounds when the player reads `written`, spelled to follow the written note: a
+ * written Bb sounds as a flat (Db, not C#), a written F# or C# as a sharp. Written naturals lean
+ * on flats, except F#, which is the usual name for that note.
+ */
+export function concertLabel(written: number, instrument: Instrument, locale: Locale): string {
+  const concert = concertNote(written, instrument);
+  const writtenSharp = NAMES.en[mod12(written)].endsWith('#');
+  const pc = mod12(concert);
+  const names =
+    writtenSharp || (pc === 6 && !NAMES.en[mod12(written)].endsWith('b'))
+      ? NAMES[locale]
+      : CONCERT_FLATS[locale];
+  return `${names[pc]}${Math.floor(concert / 12) - 1}`;
+}

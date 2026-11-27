@@ -1,9 +1,18 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { lowerFirst } from '../i18n/tools.ts';
 import { fingeringFor, keysFor, wordsFor } from './fingering.ts';
-import { INSTRUMENTS, noteLabel, noteSlug, reading, writtenNotes, writtenNote } from './notes.ts';
+import {
+  concertLabel,
+  INSTRUMENTS,
+  noteLabel,
+  noteSlug,
+  reading,
+  writtenNotes,
+  writtenNote,
+} from './notes.ts';
 import { detectPitch, FRAME } from './pitch.ts';
-import { keySlug, scaleNotes, spelledName, TONICS } from './scales.ts';
+import { concertTonic, keySlug, scaleNotes, spelledName, TONICS } from './scales.ts';
 
 const tone = (hz: number, rate = 48000, harmonics = [1, 0.5, 0.25]) =>
   Float32Array.from(
@@ -63,4 +72,48 @@ test('scales are spelled by letter and every note can be fingered', () => {
     }
   }
   assert.equal(keySlug('F#', 'minor'), 'f-sharp-minor');
+});
+
+test('concert keys and notes are spelled conventionally', () => {
+  // Alto reads C and sounds Eb; baritone reads Bb3 and sounds Db2, not C#2.
+  assert.equal(concertTonic('C', 'alto-sax', 'en', 'major'), 'E♭');
+  assert.equal(concertTonic('Bb', 'baritone-sax', 'en', 'major'), 'D♭');
+  assert.equal(concertTonic('Eb', 'tenor-sax', 'en', 'minor'), 'C♯');
+  assert.equal(concertTonic('C', 'baritone-sax', 'en', 'minor'), 'E♭');
+  assert.equal(concertTonic('B', 'alto-sax', 'en', 'minor'), 'D');
+  assert.equal(concertTonic('G#', 'clarinet', 'es', 'minor'), 'Fa♯');
+  assert.equal(concertLabel(58, 'baritone-sax', 'en'), 'Db2');
+  assert.equal(concertLabel(58, 'baritone-sax', 'es'), 'Reb2');
+  assert.equal(concertLabel(75, 'alto-sax', 'en'), 'Gb4');
+  assert.equal(concertLabel(72, 'alto-sax', 'en'), 'Eb4');
+});
+
+test('instrument names that start with a note letter keep their capital', () => {
+  assert.equal(lowerFirst('B♭ clarinet'), 'B♭ clarinet');
+  assert.equal(lowerFirst('Alto sax'), 'alto sax');
+  assert.equal(lowerFirst('Clarinete en Si♭'), 'clarinete en Si♭');
+});
+
+test('a hum below the range and a squeak above it are not notes', () => {
+  for (const hz of [40, 50]) assert.equal(detectPitch(tone(hz, 48000, [1]), 48000), null);
+  for (const hz of [2500, 3000, 4000]) assert.equal(detectPitch(tone(hz, 48000, [1]), 48000), null);
+});
+
+test('a weak fundamental still reads its own octave, and ordinary tones are unchanged', () => {
+  const shapes = [
+    [0.05, 1, 0, 0.5],
+    [0.1, 1, 0, 0.5],
+    [1],
+    [1, 0.5, 0.25],
+    [1, 0.5, 0.33, 0.25, 0.2],
+  ];
+  for (const harmonics of shapes) {
+    for (const rate of [44100, 48000]) {
+      for (const hz of [98, 147, 220, 330, 440, 660, 880]) {
+        const d = detectPitch(tone(hz, rate, harmonics), rate);
+        assert.ok(d, `${hz} Hz ${harmonics}`);
+        assert.ok(Math.abs(1200 * Math.log2(d.hz / hz)) < 5, `${hz} Hz ${harmonics} read ${d.hz}`);
+      }
+    }
+  }
 });

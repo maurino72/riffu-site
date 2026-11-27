@@ -66,8 +66,9 @@ const config = { locale, ui };
     {ui.start}
   </button>
   <p class="status" role="status" data-status hidden></p>
+  <p class="visually-hidden" aria-live="polite" data-announce></p>
   <noscript>
-    <p class="status">JavaScript is required for the tuner.</p>
+    <p class="status">{ui.noscript}</p>
   </noscript>
 </section>
 

@@ -3,7 +3,7 @@
  * for the player: the key a saxophonist or clarinettist reads, with the concert key beside it.
  */
 import type { Locale } from '../i18n/ui';
-import { mod12, noteParts, slugOfName, TRANSPOSE, type Instrument } from './notes.ts';
+import { mod12, slugOfName, TRANSPOSE, type Instrument } from './notes.ts';
 
 export const MODES = ['major', 'minor'] as const;
 export type Mode = (typeof MODES)[number];
@@ -58,12 +58,46 @@ export function tonicLabel(tonic: string, locale: Locale): string {
   return spelledName(parse(tonic), locale);
 }
 
+/** The conventional name of each key, by pitch class: D♭ major (not C♯), G♯ minor (not A♭). */
+const KEY_NAMES: Record<Mode, { letter: number; alt: number }[]> = {
+  major: [
+    [0, 0],
+    [1, -1],
+    [1, 0],
+    [2, -1],
+    [2, 0],
+    [3, 0],
+    [3, 1],
+    [4, 0],
+    [5, -1],
+    [5, 0],
+    [6, -1],
+    [6, 0],
+  ].map(([letter, alt]) => ({ letter, alt })),
+  minor: [
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [2, -1],
+    [2, 0],
+    [3, 0],
+    [3, 1],
+    [4, 0],
+    [4, 1],
+    [5, 0],
+    [6, -1],
+    [6, 0],
+  ].map(([letter, alt]) => ({ letter, alt })),
+};
+
 /** The key that sounds when the player reads `tonic`, for example `E♭` for an alto reading C. */
-export function concertTonic(tonic: string, instrument: Instrument, locale: Locale): string {
+export function concertTonic(
+  tonic: string,
+  instrument: Instrument,
+  locale: Locale,
+  mode: Mode = 'major',
+): string {
   const t = parse(tonic);
-  const { name } = noteParts(
-    60 + mod12(LETTER_PC[t.letter] + t.alt - TRANSPOSE[instrument]),
-    locale,
-  );
-  return name.replace('#', '♯').replace(/b$/, '♭');
+  const pc = mod12(LETTER_PC[t.letter] + t.alt - TRANSPOSE[instrument]);
+  return spelledName(KEY_NAMES[mode][pc], locale);
 }
