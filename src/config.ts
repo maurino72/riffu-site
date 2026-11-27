@@ -20,7 +20,7 @@ export const COMPANY = {
 } as const;
 
 /** The date shown as "Last updated" on the legal pages. Change it with every change to them. */
-export const LEGAL_UPDATED = '2026-11-25';
+export const LEGAL_UPDATED = '2026-11-27';
 
 /** Open Graph images, one per language, 1200 × 630 (`public/og/`). */
 export const OG_IMAGE = { en: '/og/en.png', es: '/og/es.png', width: 1200, height: 630 } as const;
