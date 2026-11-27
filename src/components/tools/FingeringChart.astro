@@ -1,0 +1,93 @@
+---
+/**
+ * An instrument's keys drawn as a map, with the keys of one fingering filled in. It is a map,
+ * not a picture of the instrument: left hand above, right hand below, each key roughly where the
+ * hand finds it. Ported from the app's drawn chart. Plain SVG, no script.
+ */
+import { CHART_HEIGHT, CHART_WIDTH, SHAPES, keysFor, wordsFor } from '../../lib/fingering';
+import { FAMILY, type Instrument } from '../../lib/notes';
+import type { Locale } from '../../i18n/ui';
+
+interface Props {
+  midi: number;
+  instrument: Instrument;
+  locale: Locale;
+  /** Rendered height in px; the width follows. */
+  height?: number;
+  /** Read out the fingering to screen readers (off when the words are printed next to it). */
+  label?: boolean;
+}
+
+const { midi, instrument, locale, height = 264, label = false } = Astro.props;
+const family = FAMILY[instrument];
+const pressed = new Set(keysFor(midi, instrument) ?? []);
+const width = Math.round((height * CHART_WIDTH) / CHART_HEIGHT);
+const words = label ? wordsFor(midi, instrument, locale) : '';
+---
+
+<svg
+  class="chart"
+  width={width}
+  height={height}
+  viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
+  role={label ? 'img' : undefined}
+  aria-label={label ? words : undefined}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <line x1="70" y1="20" x2="70" y2="258" class="body" stroke-width="3" stroke-linecap="round" />
+  <line x1="50" y1="145" x2="96" y2="145" class="body" stroke-width="2" stroke-dasharray="4 4" />
+  {SHAPES[family].map((s) => {
+    const down = pressed.has(s.key);
+    const cls = down ? 'key down' : 'key';
+    return (
+      <>
+        {'r' in s ? (
+          <circle class={cls} cx={s.x} cy={s.y} r={s.r} />
+        ) : (
+          <rect class={cls} x={s.x} y={s.y} width={s.w} height={s.h} rx={s.h / 2} />
+        )}
+        {s.label && (
+          <text
+            class={down ? 'tag down' : 'tag'}
+            x={'r' in s ? s.x : s.x + s.w / 2}
+            y={'r' in s ? s.y + 3 : s.y + s.h / 2 + 3}
+            text-anchor="middle"
+          >
+            {s.label}
+          </text>
+        )}
+      </>
+    );
+  })}
+</svg>
+
+<style>
+  .chart {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .body {
+    stroke: var(--border);
+  }
+
+  .key {
+    fill: var(--surface);
+    stroke: var(--text-muted);
+    stroke-width: 2;
+  }
+
+  .key.down {
+    fill: var(--violet);
+    stroke: var(--violet);
+  }
+
+  .tag {
+    font: 800 9px var(--font);
+    fill: var(--text-muted);
+  }
+
+  .tag.down {
+    fill: var(--on-violet);
+  }
+</style>

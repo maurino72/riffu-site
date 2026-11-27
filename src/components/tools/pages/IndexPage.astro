@@ -1,0 +1,37 @@
+---
+/** `/fingering` and `/scales`: the instrument picker. */
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { tools } from '../../../i18n/tools';
+import type { Locale } from '../../../i18n/ui';
+import Tool from '../../../layouts/Tool.astro';
+import { INSTRUMENTS } from '../../../lib/notes';
+import { fingeringPath, scalesPath } from '../../../lib/tool-paths';
+
+interface Props {
+  locale: Locale;
+  tool: 'fingering' | 'scales';
+}
+
+const { locale, tool } = Astro.props;
+const s = tools[locale];
+const page = tool === 'fingering' ? s.fingeringIndex : s.scalesIndex;
+const href = tool === 'fingering' ? fingeringPath : scalesPath;
+---
+
+<Tool
+  locale={locale}
+  path={href()}
+  current={tool}
+  title={page.title}
+  description={page.description}
+  heading={page.heading}
+  intro={page.intro}
+>
+  <ul class="chips">
+    {INSTRUMENTS.map((i) => (
+      <li>
+        <a href={getRelativeLocaleUrl(locale, href(i))}>{s.instrumentNames[i]}</a>
+      </li>
+    ))}
+  </ul>
+</Tool>

@@ -1,0 +1,9 @@
+---
+import TunerPage from '../../../components/tools/pages/TunerPage.astro';
+import { instrumentParams } from '../../../lib/tool-paths';
+
+export const getStaticPaths = instrumentParams;
+const { instrument } = Astro.params;
+---
+
+<TunerPage locale="es" instrument={instrument} />

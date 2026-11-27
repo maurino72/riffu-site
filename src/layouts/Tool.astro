@@ -1,0 +1,73 @@
+---
+/** A free-tool page: the shared layout, the tool navigation, one heading and the Get Riffu banner. */
+import GetRiffu from '../components/tools/GetRiffu.astro';
+import ToolNav from '../components/tools/ToolNav.astro';
+import type { Locale } from '../i18n/ui';
+import Base from './Base.astro';
+
+interface Props {
+  locale: Locale;
+  path: string;
+  title: string;
+  description: string;
+  current: 'tuner' | 'fingering' | 'scales';
+  heading: string;
+  intro?: string;
+}
+
+const { locale, path, title, description, current, heading, intro } = Astro.props;
+---
+
+<Base locale={locale} path={path} title={`${title} · Riffu`} description={description}>
+  <article class="container tool">
+    <ToolNav locale={locale} current={current} />
+    <h1>{heading}</h1>
+    {intro && <p class="intro">{intro}</p>}
+    <slot />
+    <GetRiffu locale={locale} />
+  </article>
+</Base>
+
+<style>
+  .tool {
+    padding-block: clamp(1.5rem, 5vw, 3rem);
+  }
+
+  h1 {
+    font-size: clamp(1.875rem, 4vw + 1rem, 3rem);
+  }
+
+  .intro {
+    max-width: 42rem;
+    font-size: 1.1875rem;
+  }
+
+  .tool :global(h2) {
+    margin-top: 2.5rem;
+    font-size: 1.5rem;
+  }
+
+  .tool :global(.chips) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+  }
+
+  .tool :global(.chips a) {
+    display: inline-block;
+    padding: 0.375rem 0.875rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-pill);
+    color: var(--ink);
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .tool :global(.chips a:hover) {
+    border-color: var(--violet);
+    background: var(--violet-tint);
+  }
+</style>

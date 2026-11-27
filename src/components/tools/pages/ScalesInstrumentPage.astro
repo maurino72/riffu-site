@@ -1,0 +1,43 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { instrumentName, tools, upperFirst } from '../../../i18n/tools';
+import type { Locale } from '../../../i18n/ui';
+import Tool from '../../../layouts/Tool.astro';
+import type { Instrument } from '../../../lib/notes';
+import { MODES, TONICS, tonicLabel } from '../../../lib/scales';
+import { scalesPath } from '../../../lib/tool-paths';
+
+interface Props {
+  locale: Locale;
+  instrument: Instrument;
+}
+
+const { locale, instrument } = Astro.props;
+const p = tools[locale].scalesInstrument;
+const name = instrumentName(locale, instrument);
+---
+
+<Tool
+  locale={locale}
+  path={scalesPath(instrument)}
+  current="scales"
+  title={upperFirst(p.title(name))}
+  description={p.description(name)}
+  heading={upperFirst(p.heading(name))}
+  intro={p.intro(name)}
+>
+  {MODES.map((mode) => (
+    <section>
+      <h2>{mode === 'major' ? p.majorHeading : p.minorHeading}</h2>
+      <ul class="chips">
+        {TONICS[mode].map((tonic) => (
+          <li>
+            <a href={getRelativeLocaleUrl(locale, scalesPath(instrument, tonic, mode))}>
+              {tonicLabel(tonic, locale)}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Tool>

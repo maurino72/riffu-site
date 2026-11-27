@@ -1,0 +1,9 @@
+---
+import FingeringInstrumentPage from '../../../../components/tools/pages/FingeringInstrumentPage.astro';
+import { instrumentParams } from '../../../../lib/tool-paths';
+
+export const getStaticPaths = instrumentParams;
+const { instrument } = Astro.params;
+---
+
+<FingeringInstrumentPage locale="es" instrument={instrument} />

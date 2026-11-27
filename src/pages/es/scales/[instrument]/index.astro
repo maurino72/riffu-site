@@ -1,0 +1,9 @@
+---
+import ScalesInstrumentPage from '../../../../components/tools/pages/ScalesInstrumentPage.astro';
+import { instrumentParams } from '../../../../lib/tool-paths';
+
+export const getStaticPaths = instrumentParams;
+const { instrument } = Astro.params;
+---
+
+<ScalesInstrumentPage locale="es" instrument={instrument} />
