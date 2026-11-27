@@ -1,0 +1,102 @@
+---
+/**
+ * The page an invite link opens (`/f/<code>`, `/es/f/<code>`), for a phone without Riffu or a
+ * browser that does not hand the link to the app. vercel.json rewrites every code to this one
+ * static page; a small script reads the code from the address, shows it, and offers to open it in
+ * the app (`riffu://friend/<code>`). Nothing is sent anywhere and nothing is stored.
+ */
+import AppStoreDownload from './AppStoreDownload.astro';
+import type { Locale } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const s =
+  locale === 'es'
+    ? {
+        heading: 'Te invitaron a ser amigos en Riffu',
+        intro:
+          'Con amigos en Riffu ven sus rachas, el XP de la semana y sus mejores puntajes en las canciones. Nadie te puede buscar: solo se agregan con un código como este.',
+        code: 'El código',
+        open: 'Abrir en Riffu',
+        manual:
+          'Si no se abre, abre Riffu, ve a la pestaña Logros, toca "Tengo un código" y escribe el código.',
+        get: '¿Todavía no tienes Riffu?',
+        invalid: 'Este enlace no tiene un código válido. Pide a tu amigo que te lo envíe de nuevo.',
+      }
+    : {
+        heading: 'You were invited to be friends on Riffu',
+        intro:
+          'Friends on Riffu see each other’s streaks, weekly XP and best song scores. Nobody can search for you: friends are added only with a code like this one.',
+        code: 'The code',
+        open: 'Open in Riffu',
+        manual:
+          'If it does not open, open Riffu, go to the Awards tab, tap "I have a code" and type the code.',
+        get: 'Don’t have Riffu yet?',
+        invalid: 'This link has no valid code. Ask your friend to send it again.',
+      };
+---
+
+<section class="container invite" data-invite>
+  <h1>{s.heading}</h1>
+  <p>{s.intro}</p>
+  <div class="code-box" data-has-code hidden>
+    <p class="label">{s.code}</p>
+    <p class="code" data-code></p>
+    <a class="button" data-open href="riffu://friend">
+      {s.open}
+    </a>
+    <p class="manual">{s.manual}</p>
+  </div>
+  <p class="invalid" data-no-code hidden>
+    {s.invalid}
+  </p>
+  <h2>{s.get}</h2>
+  <AppStoreDownload locale={locale} />
+</section>
+
+<script>
+  // The same rule as the database (supabase/migrations/20261127170000_friends.sql in the app):
+  // 8 characters, capital letters and digits without I, O, 0 and 1.
+  const CODE = /^[A-HJ-NP-Z2-9]{8}$/;
+  const root = document.querySelector<HTMLElement>('[data-invite]');
+  if (root) {
+    const last = location.pathname.split('/').filter(Boolean).pop() ?? '';
+    const code = last.toUpperCase();
+    if (CODE.test(code)) {
+      root.querySelector<HTMLElement>('[data-code]')!.textContent = code;
+      root.querySelector<HTMLAnchorElement>('[data-open]')!.href = `riffu://friend/${code}`;
+      root.querySelector<HTMLElement>('[data-has-code]')!.hidden = false;
+    } else {
+      root.querySelector<HTMLElement>('[data-no-code]')!.hidden = false;
+    }
+  }
+</script>
+
+<style>
+  .invite {
+    max-width: 40rem;
+    padding-block: 3rem;
+    text-align: center;
+  }
+  .code-box {
+    margin-block: 2rem;
+  }
+  .label {
+    margin: 0;
+    font-weight: 800;
+  }
+  .code {
+    margin: 0.25rem 0 1.25rem;
+    font-size: 2.25rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+    font-variant-numeric: tabular-nums;
+  }
+  .manual,
+  .invalid {
+    margin-top: 1rem;
+  }
+</style>
