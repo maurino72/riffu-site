@@ -83,21 +83,50 @@ export function detectPitch(
 
   // Take the first candidate close to the strongest one: the true period, not a multiple of it.
   let pick = inRange.find((p) => nsdf[p] >= 0.9 * top)!;
+  // Octave check: when the fundamental is weak the half period scores almost as well as the
+  // true one. Move to the double period only if the spectrum really holds energy at half the
+  // frequency, well above the floor between the harmonics; a plain tone never does.
   const height = (p: number) => parabola(nsdf[p - 1], nsdf[p], nsdf[p + 1], p)[1];
-  // Octave check: when the fundamental is weak the half period scores almost as well, so a peak
-  // at twice the lag that scores higher is the real period.
-  for (;;) {
-    const double = inRange.find((p) => Math.abs(p - 2 * pick) <= Math.max(2, pick * 0.03));
-    if (double === undefined || height(double) < height(pick) + OCTAVE_MARGIN) break;
-    pick = double;
+  const double = inRange.find((p) => Math.abs(p - 2 * pick) <= Math.max(2, pick * 0.03));
+  if (double !== undefined && height(double) >= height(pick) - 0.02) {
+    const f = sampleRate / pick;
+    if (hasSubharmonic(frame, sampleRate, f)) pick = double;
   }
   const [lag, clarity] = parabola(nsdf[pick - 1], nsdf[pick], nsdf[pick + 1], pick);
   if (clarity < minClarity) return null;
   return { hz: sampleRate / lag, clarity: Math.min(1, clarity), rms: level };
 }
 
-/** How much better the double period must score to be preferred over the first candidate. */
-const OCTAVE_MARGIN = 0.002;
+/** The subharmonic must hold at least this many times the average power of the floor. */
+const SUBHARMONIC_RATIO = 60;
+
+/** Power of one frequency in a Hann-windowed frame (Goertzel). */
+function power(frame: ArrayLike<number>, sampleRate: number, hz: number): number {
+  const n = frame.length;
+  const w = (2 * Math.PI * hz) / sampleRate;
+  const c = 2 * Math.cos(w);
+  let s1 = 0;
+  let s2 = 0;
+  for (let i = 0; i < n; i++) {
+    const x = frame[i] * (0.5 - 0.5 * Math.cos((2 * Math.PI * i) / (n - 1)));
+    const s0 = x + c * s1 - s2;
+    s2 = s1;
+    s1 = s0;
+  }
+  return (s1 * s1 + s2 * s2 - c * s1 * s2) / (n * n);
+}
+
+/**
+ * Is there a tone at half of `f` that stands well clear of the frequencies between the
+ * harmonics of that half-frequency (1.5, 2.5 ... times it are not harmonics of `f`)?
+ */
+function hasSubharmonic(frame: ArrayLike<number>, sampleRate: number, f: number): boolean {
+  const half = f / 2;
+  if (half < MIN_HZ) return false;
+  const floor = [0.6, 0.7, 0.8, 1.2, 1.3, 1.4].map((k) => power(frame, sampleRate, f * k));
+  const mean = floor.reduce((a, b) => a + b, 0) / floor.length;
+  return power(frame, sampleRate, half) > SUBHARMONIC_RATIO * mean;
+}
 
 /** Vertex of the parabola through three neighbouring points: [position, height]. */
 function parabola(a: number, b: number, c: number, x: number): [number, number] {

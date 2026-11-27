@@ -117,3 +117,57 @@ test('a weak fundamental still reads its own octave, and ordinary tones are unch
     }
   }
 });
+
+// A regression suite for the detector: C2 to E6 in small steps, at both common sample rates,
+// over six harmonic shapes and four conditions (clean, light noise, loud noise, vibrato). It
+// counts notes read an octave or more too low or too high. Both must be zero.
+test('the detector never reads an octave off, across shapes, noise and vibrato', () => {
+  let seed = 12345;
+  const rnd = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+  type Opt = { noise: number; vib: number; trem: number };
+  const make = (hz: number, rate: number, h: number[], o: Opt) => {
+    const phases = h.map(() => rnd() * 2 * Math.PI);
+    let phase = 0;
+    const out = new Float32Array(FRAME);
+    for (let i = 0; i < FRAME; i++) {
+      const t = i / rate;
+      phase += (2 * Math.PI * hz * (1 + o.vib * Math.sin(2 * Math.PI * 5.5 * t))) / rate;
+      const env = 1 + o.trem * Math.sin(2 * Math.PI * 6 * t + 1);
+      let s = 0;
+      for (let k = 0; k < h.length; k++) s += h[k] * Math.sin(phase * (k + 1) + phases[k]);
+      out[i] = 0.15 * env * s + o.noise * (rnd() - 0.5);
+    }
+    return out;
+  };
+  const shapes: Record<string, number[]> = {
+    sine: [1],
+    std: [1, 0.5, 0.25],
+    rich: [1, 0.8, 0.6, 0.5, 0.4, 0.3, 0.2, 0.15, 0.1],
+    clar: [1, 0.05, 0.7, 0.05, 0.5, 0.03, 0.3],
+    even2: [0.6, 1, 0.3, 0.5, 0.2],
+    weak: [0.2, 1, 0.5, 0.6, 0.3],
+  };
+  const conditions: Record<string, Opt> = {
+    clean: { noise: 0, vib: 0, trem: 0 },
+    noise: { noise: 0.03, vib: 0, trem: 0 },
+    loudnoise: { noise: 0.1, vib: 0, trem: 0 },
+    vib: { noise: 0.01, vib: 0.004, trem: 0.1 },
+  };
+  const wrong: string[] = [];
+  for (const [cn, o] of Object.entries(conditions)) {
+    for (const [sn, h] of Object.entries(shapes)) {
+      for (const rate of [44100, 48000]) {
+        for (let m = 36; m <= 88; m += 0.7) {
+          const hz = 440 * 2 ** ((m - 69) / 12);
+          const d = detectPitch(make(hz, rate, h, o), rate);
+          if (d && Math.abs(1200 * Math.log2(d.hz / hz)) > 600)
+            wrong.push(`${cn}/${sn} ${hz.toFixed(1)}@${rate} -> ${d.hz.toFixed(1)}`);
+        }
+      }
+    }
+  }
+  assert.deepEqual(wrong, []);
+});
