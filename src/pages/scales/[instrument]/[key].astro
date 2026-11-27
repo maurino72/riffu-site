@@ -1,0 +1,10 @@
+---
+import ScalePage from '../../../components/tools/pages/ScalePage.astro';
+import { keyParams } from '../../../lib/tool-paths';
+
+export const getStaticPaths = keyParams;
+const { instrument } = Astro.params;
+const { tonic, mode } = Astro.props;
+---
+
+<ScalePage locale="en" instrument={instrument} tonic={tonic} mode={mode} />

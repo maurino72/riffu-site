@@ -1,0 +1,178 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { instrumentName, tools, upperFirst } from '../../../i18n/tools';
+import type { Locale } from '../../../i18n/ui';
+import Tool from '../../../layouts/Tool.astro';
+import { wordsFor } from '../../../lib/fingering';
+import { concertNote, FAMILY, mod12, noteLabel, RANGE, type Instrument } from '../../../lib/notes';
+import { MODES, TONICS, tonicLabel } from '../../../lib/scales';
+import { fingeringPath, scalesPath, tunerPath } from '../../../lib/tool-paths';
+import FingeringChart from '../FingeringChart.astro';
+
+interface Props {
+  locale: Locale;
+  instrument: Instrument;
+  midi: number;
+}
+
+const { locale, instrument, midi } = Astro.props;
+const s = tools[locale];
+const p = s.fingeringNote;
+const name = instrumentName(locale, instrument);
+const note = noteLabel(midi, locale);
+const concert = noteLabel(concertNote(midi, instrument), locale);
+const [low, high] = RANGE[FAMILY[instrument]];
+const url = (path: string) => getRelativeLocaleUrl(locale, path);
+
+// Scales whose written tonic is this note's letter name.
+const pc = mod12(midi);
+const SCALE_PC: Record<string, number> = {
+  C: 0,
+  'C#': 1,
+  Db: 1,
+  D: 2,
+  Eb: 3,
+  E: 4,
+  F: 5,
+  'F#': 6,
+  G: 7,
+  Ab: 8,
+  'G#': 8,
+  A: 9,
+  Bb: 10,
+  B: 11,
+};
+const scales = MODES.flatMap((mode) =>
+  TONICS[mode].filter((t) => SCALE_PC[t] === pc).map((tonic) => ({ tonic, mode })),
+);
+---
+
+<Tool
+  locale={locale}
+  path={fingeringPath(instrument, midi)}
+  current="fingering"
+  title={upperFirst(p.title(name, note))}
+  description={p.description(name, note, concert)}
+  heading={upperFirst(p.heading(name, note))}
+  intro={p.summary(name, note, concert)}
+>
+  <div class="layout">
+    <figure>
+      <FingeringChart midi={midi} instrument={instrument} locale={locale} label />
+      <figcaption>{p.chartCaption}</figcaption>
+    </figure>
+    <div class="details">
+      <h2>{p.keysHeading}</h2>
+      <p>{wordsFor(midi, instrument, locale)}</p>
+      <dl>
+        <div>
+          <dt>{s.writtenPitch}</dt>
+          <dd>{note}</dd>
+        </div>
+        <div>
+          <dt>{s.concertPitch}</dt>
+          <dd>{concert}</dd>
+        </div>
+      </dl>
+      <p class="note">{FAMILY[instrument] === 'clarinet' ? p.clarinetNote : p.saxNote}</p>
+      <p>
+        <a href={url(tunerPath(instrument))}>{p.tunerLink(name)}</a>
+      </p>
+    </div>
+  </div>
+
+  <nav aria-label={p.neighboursHeading}>
+    <h2>{p.neighboursHeading}</h2>
+    <ul class="chips">
+      {midi > low && (
+        <li>
+          <a href={url(fingeringPath(instrument, midi - 1))} rel="prev">
+            {p.previous}: {noteLabel(midi - 1, locale)}
+          </a>
+        </li>
+      )}
+      {midi < high && (
+        <li>
+          <a href={url(fingeringPath(instrument, midi + 1))} rel="next">
+            {p.next}: {noteLabel(midi + 1, locale)}
+          </a>
+        </li>
+      )}
+      <li>
+        <a href={url(fingeringPath(instrument))}>{p.backToAll(name)}</a>
+      </li>
+    </ul>
+  </nav>
+
+  {scales.length > 0 && (
+    <section>
+      <h2>{p.scalesHeading}</h2>
+      <ul class="chips">
+        {scales.map(({ tonic, mode }) => (
+          <li>
+            <a href={url(scalesPath(instrument, tonic, mode))}>
+              {tonicLabel(tonic, locale)} {s.scalePage.modeName[mode]}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</Tool>
+
+<style>
+  .layout {
+    display: grid;
+    gap: 2rem;
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 720px) {
+    .layout {
+      grid-template-columns: auto 1fr;
+    }
+  }
+
+  figure {
+    margin: 0;
+    padding: 1.25rem;
+    border: 2px solid var(--border);
+    border-radius: 24px;
+    justify-self: start;
+  }
+
+  figcaption {
+    max-width: 16rem;
+    margin-top: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  .details h2 {
+    margin-top: 0;
+  }
+
+  dl {
+    display: grid;
+    gap: 0.75rem;
+    margin: 1.25rem 0;
+  }
+
+  dt {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--ink);
+  }
+
+  .note {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+  }
+</style>

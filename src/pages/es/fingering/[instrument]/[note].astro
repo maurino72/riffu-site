@@ -1,0 +1,10 @@
+---
+import FingeringNotePage from '../../../../components/tools/pages/FingeringNotePage.astro';
+import { noteParams } from '../../../../lib/tool-paths';
+
+export const getStaticPaths = noteParams;
+const { instrument } = Astro.params;
+const { midi } = Astro.props;
+---
+
+<FingeringNotePage locale="es" instrument={instrument} midi={midi} />

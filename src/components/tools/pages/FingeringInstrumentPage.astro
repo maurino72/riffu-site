@@ -1,0 +1,38 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { instrumentName, tools, upperFirst } from '../../../i18n/tools';
+import type { Locale } from '../../../i18n/ui';
+import Tool from '../../../layouts/Tool.astro';
+import { noteLabel, writtenNotes, type Instrument } from '../../../lib/notes';
+import { fingeringPath } from '../../../lib/tool-paths';
+
+interface Props {
+  locale: Locale;
+  instrument: Instrument;
+}
+
+const { locale, instrument } = Astro.props;
+const p = tools[locale].fingeringInstrument;
+const name = instrumentName(locale, instrument);
+const notes = writtenNotes(instrument);
+---
+
+<Tool
+  locale={locale}
+  path={fingeringPath(instrument)}
+  current="fingering"
+  title={upperFirst(p.title(name))}
+  description={p.description(name, notes.length)}
+  heading={upperFirst(p.heading(name))}
+  intro={p.intro(name)}
+>
+  <ul class="chips">
+    {notes.map((midi) => (
+      <li>
+        <a href={getRelativeLocaleUrl(locale, fingeringPath(instrument, midi))}>
+          {noteLabel(midi, locale)}
+        </a>
+      </li>
+    ))}
+  </ul>
+</Tool>

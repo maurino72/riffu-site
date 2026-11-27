@@ -1,0 +1,73 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { instrumentName, tools, upperFirst } from '../../../i18n/tools';
+import type { Locale } from '../../../i18n/ui';
+import Tool from '../../../layouts/Tool.astro';
+import { INSTRUMENTS, type Instrument } from '../../../lib/notes';
+import { tunerPath } from '../../../lib/tool-paths';
+import Tuner from '../Tuner.astro';
+
+interface Props {
+  locale: Locale;
+  /** Omitted on the general `/tuner` page. */
+  instrument?: Instrument;
+}
+
+const { locale, instrument } = Astro.props;
+const s = tools[locale];
+const p = s.tunerPage;
+const name = instrument ? instrumentName(locale, instrument) : '';
+---
+
+<Tool
+  locale={locale}
+  path={tunerPath(instrument)}
+  current="tuner"
+  title={instrument ? upperFirst(p.instrumentTitle(name)) : p.title}
+  description={instrument ? p.instrumentDescription(name) : p.description}
+  heading={instrument ? upperFirst(p.instrumentHeading(name)) : p.heading}
+  intro={instrument ? p.instrumentIntro(name, p.shift[instrument]) : p.intro}
+>
+  <Tuner locale={locale} instrument={instrument ?? 'alto-sax'} />
+  <p class="privacy">{p.privacy}</p>
+
+  <h2>{p.howHeading}</h2>
+  <ol>
+    {p.howItems.map((item) => (
+      <li>{item}</li>
+    ))}
+  </ol>
+
+  <h2>{p.refHeading}</h2>
+  <p class="prose">{p.refText}</p>
+
+  <h2>{p.chooseHeading}</h2>
+  <ul class="chips">
+    {INSTRUMENTS.map((i) => (
+      <li>
+        <a href={getRelativeLocaleUrl(locale, tunerPath(i))}>{s.instrumentNames[i]}</a>
+      </li>
+    ))}
+  </ul>
+</Tool>
+
+<style>
+  .privacy {
+    margin-top: 1rem;
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+  }
+
+  .prose {
+    max-width: 42rem;
+  }
+
+  ol {
+    max-width: 42rem;
+    padding-left: 1.25rem;
+  }
+
+  li {
+    margin-bottom: 0.375rem;
+  }
+</style>

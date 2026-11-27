@@ -1,0 +1,107 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { instrumentName, tools, upperFirst } from '../../../i18n/tools';
+import type { Locale } from '../../../i18n/ui';
+import Tool from '../../../layouts/Tool.astro';
+import { noteLabel, type Instrument } from '../../../lib/notes';
+import {
+  concertTonic,
+  scaleNotes,
+  spelledName,
+  TONICS,
+  tonicLabel,
+  type Mode,
+} from '../../../lib/scales';
+import { fingeringPath, scalesPath } from '../../../lib/tool-paths';
+import FingeringChart from '../FingeringChart.astro';
+
+interface Props {
+  locale: Locale;
+  instrument: Instrument;
+  tonic: string;
+  mode: Mode;
+}
+
+const { locale, instrument, tonic, mode } = Astro.props;
+const s = tools[locale];
+const p = s.scalePage;
+const name = instrumentName(locale, instrument);
+const key = `${tonicLabel(tonic, locale)} ${p.modeName[mode]}`;
+const concert = `${concertTonic(tonic, instrument, locale)} ${p.modeName[mode]}`;
+const notes = scaleNotes(tonic, mode);
+const url = (path: string) => getRelativeLocaleUrl(locale, path);
+---
+
+<Tool
+  locale={locale}
+  path={scalesPath(instrument, tonic, mode)}
+  current="scales"
+  title={upperFirst(p.title(name, key))}
+  description={p.description(name, key, concert)}
+  heading={upperFirst(p.heading(name, key))}
+  intro={p.summary(name, key, concert)}
+>
+  <h2>{p.notesHeading}</h2>
+  <p>{p.notesIntro}</p>
+  <ol class="notes">
+    {notes.map((n) => (
+      <li>
+        <a href={url(fingeringPath(instrument, n.midi))}>
+          <FingeringChart midi={n.midi} instrument={instrument} locale={locale} height={150} />
+          <strong>{spelledName(n.spelled, locale)}</strong>
+          <span>{noteLabel(n.midi, locale)}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+
+  <h2>{p.otherKeys}</h2>
+  <ul class="chips">
+    {TONICS[mode].map((t) => (
+      <li>
+        <a href={url(scalesPath(instrument, t, mode))}>{tonicLabel(t, locale)}</a>
+      </li>
+    ))}
+    <li>
+      <a href={url(scalesPath(instrument))}>{p.backToAll(name)}</a>
+    </li>
+  </ul>
+</Tool>
+
+<style>
+  .notes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.75rem 0.5rem;
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  a:hover {
+    border-color: var(--violet);
+    background: var(--violet-tint);
+  }
+
+  strong {
+    font-size: 1.25rem;
+    font-weight: 900;
+  }
+
+  span {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+</style>

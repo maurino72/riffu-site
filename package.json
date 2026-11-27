@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "links": "linkinator ./dist --recurse --check-css --check-fragments --skip \"^https?://(?!localhost|127\\\\.0\\\\.0\\\\.1)\" && linkinator 404.html --server-root ./dist --check-css --check-fragments --skip \"^https?://(?!localhost|127\\\\.0\\\\.0\\\\.1)\"",
-    "ci": "npm run check && npm run build && npm run format:check && npm run links"
+    "test": "node --test src/lib/lib.test.ts",
+    "ci": "npm run check && npm run test && npm run build && npm run format:check && npm run links"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.6",
