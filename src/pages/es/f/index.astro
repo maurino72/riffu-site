@@ -1,0 +1,16 @@
+---
+import FriendInvite from '../../../components/FriendInvite.astro';
+import Base from '../../../layouts/Base.astro';
+
+// Every /es/f/<code> is rewritten to this page (vercel.json). Kept out of search and the sitemap.
+---
+
+<Base
+  locale="es"
+  path="/f"
+  title="Un amigo te invitó · Riffu"
+  description="Abre en Riffu la invitación de tu amigo."
+  noindex
+>
+  <FriendInvite locale="es" />
+</Base>

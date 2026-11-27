@@ -34,6 +34,11 @@ import Legal from '../../layouts/Legal.astro';
       nada con nadie.
     </li>
     <li>Si creas una cuenta, puedes borrarla con todos sus datos desde la app cuando quieras.</li>
+    <li>
+      Los amigos se agregan solo con un código de invitación que tú compartes; nadie te puede
+      buscar, y tus amigos ven un nombre generado y tu progreso, nunca tu nombre real (mira Amigos y
+      tablas de las canciones).
+    </li>
   </ul>
 
   <h2>Sin cuenta</h2>
@@ -55,13 +60,27 @@ import Legal from '../../layouts/Legal.astro';
       identificador que Apple usa para ti en Riffu.
     </li>
     <li>
-      <strong>Tu nombre</strong>, solo si lo compartes con Iniciar sesión con Apple.
+      <strong>Tu nombre</strong>, solo si lo compartes con Iniciar sesión con Apple, o tu nombre de
+      pila si usas Iniciar sesión con Google.
     </li>
     <li>
       <strong>Tu progreso en el curso:</strong> tu instrumento, las lecciones que terminaste, tus
-      XP, los días que practicaste y tu racha, tu meta diaria, tus pulsos y las preguntas que
-      esperan tu repaso. También incluye un identificador que la app crea para cada teléfono, para
-      poder unir el progreso de dos teléfonos.
+      XP, los días que practicaste y tu racha, tu meta diaria, tus pulsos y tus corazones, tus
+      intentos en los tests, las preguntas que respondiste mal (para repasarlas), qué tan bien tocas
+      cada nota (para la práctica inteligente) y tus mejores puntajes en las canciones. También
+      incluye un identificador que la app crea para cada teléfono, para poder unir el progreso de
+      dos teléfonos.
+    </li>
+    <li>
+      <strong>Tu tiempo de práctica</strong>, en segundos por día y por teléfono, y{' '}
+      <strong>una lectura del afinador por día</strong> (la nota y cuánto se aleja de la afinación),
+      de los últimos 30 días.
+    </li>
+    <li>
+      <strong>Tu liga:</strong> un nombre generado como "Tenor 4821", tu instrumento, tu liga
+      (Piano, Forte…) y el XP de liga que ganas cada semana. Los demás alumnos de tu grupo de liga
+      ven ese nombre, tu instrumento y tu XP de liga de la semana, nunca tu email ni el nombre de tu
+      cuenta.
     </li>
     <li>
       <strong>Un token de Apple</strong>, si usas Iniciar sesión con Apple. Lo guardamos solo para
@@ -73,10 +92,9 @@ import Legal from '../../layouts/Legal.astro';
     </li>
   </ul>
   <p>
-    Tus minutos de práctica, las notas que fallaste y las lecturas del afinador quedan en tu
-    teléfono. Usamos los datos de arriba solo para que Riffu funcione para ti: iniciar tu sesión,
-    conservar tu progreso y darte Pro. No los vendemos, no los compartimos para publicidad y no los
-    usamos para armar un perfil tuyo.
+    El sonido y las tomas que grabas y escuchas quedan en tu teléfono. Usamos los datos de arriba
+    solo para que Riffu funcione para ti: iniciar tu sesión, conservar tu progreso y darte Pro. No
+    los vendemos, no los compartimos para publicidad y no los usamos para armar un perfil tuyo.
   </p>
 
   <h2>El micrófono</h2>
@@ -96,6 +114,48 @@ import Legal from '../../layouts/Legal.astro';
     siquiera tu instrumento ni tu referencia de afinación. El micrófono se libera cuando detienes el
     afinador, cambias de pestaña o sales de la página. Puedes bloquear el micrófono para este sitio
     en los ajustes de tu navegador cuando quieras.
+  </p>
+
+  <h2 id="friends">Amigos y tablas de las canciones</h2>
+  <p>
+    Con una cuenta puedes agregar amigos y ver las tablas de las canciones. Nadie te puede buscar:
+    un amigo se agrega solo con tu código de invitación, que tú decides compartir. Antes de invitar
+    o agregar a alguien, aceptas las <a href="/es/terms#community">reglas de la comunidad</a>. Nadie
+    elige un nombre que vean los demás: los otros alumnos te ven con un nombre generado como "Tenor
+    4821" (tu instrumento y un número), el mismo de tu liga.
+  </p>
+  <ul>
+    <li>
+      <strong>Tus amigos ven:</strong> tu nombre generado, tu instrumento, tu racha actual, tu XP de
+      liga de esta semana, tu último logro de racha o de primera lección, tus mejores puntajes en
+      las tablas de amigos de las canciones, y si te dieron un toque hoy.
+    </li>
+    <li>
+      <strong>Apodos:</strong> puedes ponerle un apodo a cada amigo para saber quién es quién. Queda
+      solo en tu teléfono: nunca nos llega y nadie más lo ve. Se borra cuando cierras sesión, quitas
+      a ese amigo o lo bloqueas.
+    </li>
+    <li>
+      <strong>Alguien con tu código que todavía no es tu amigo</strong> ve solo tu nombre generado y
+      tu instrumento. Tu código dura 14 días y deja de funcionar cuando haces uno nuevo, quitas a
+      alguien de amigos o bloqueas a alguien.
+    </li>
+    <li>
+      <strong>La tabla mundial de una canción</strong> muestra a todos los que iniciaron sesión los
+      mejores puntajes con el nombre generado, el instrumento y el porcentaje de notas bien.
+    </li>
+    <li>
+      Nadie más ve nunca tu email, el nombre de tu cuenta, tus minutos de práctica, si tienes Pro ni
+      ninguna otra cosa de tu cuenta.
+    </li>
+  </ul>
+  <p>
+    Para esto guardamos: la fecha en que aceptaste las reglas; tu código de invitación; quiénes son
+    tus amigos; a quién bloqueaste; los toques que diste y recibiste; las denuncias que hiciste (uno
+    de cuatro motivos fijos, sin texto); tu mejor puntaje a tempo completo en cada canción; y
+    cuántos códigos equivocados probaste hace poco, para evitar que se adivinen. Las denuncias las
+    leemos solo nosotros. En la app puedes quitar de amigos, bloquear o denunciar a cualquiera. Todo
+    se borra con tu cuenta.
   </p>
 
   <h2>Notificaciones</h2>
@@ -125,6 +185,9 @@ import Legal from '../../layouts/Legal.astro';
     </li>
     <li>
       <strong>Apple</strong>, para Iniciar sesión con Apple y las compras en el App Store.
+    </li>
+    <li>
+      <strong>Google</strong>, para Iniciar sesión con Google.
     </li>
     <li>
       <strong>RevenueCat</strong>, para las suscripciones.
